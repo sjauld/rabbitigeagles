@@ -1,15 +1,10 @@
 require 'rubygems'
-require 'sinatra'
-require 'haml'
+require 'bundler'
+ENV['RACK_ENV'] ||= 'development'
+Bundler.require(:core, ENV['RACK_ENV'])
 
-configure do
-  enable :sessions
+require './config/environments'
+require './routes/init'
+
+class Tip < ActiveRecord::Base
 end
-
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Hello stranger'
-  end
-end
-
-require 'routes/init'

@@ -1,5 +1,5 @@
 get '/' do
-  haml :login_form
+  haml :index
 end
 
 get '/secure/place' do
