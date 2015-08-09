@@ -7,6 +7,10 @@ class App < Sinatra::Base
     def username
       session[:identity] ? session[:identity] : 'Hello stranger'
     end
+
+    def where_user_came_from
+      session[:previous_url] || '/'
+    end
   end
 
   before '/secure/*' do
@@ -31,7 +35,4 @@ class App < Sinatra::Base
     redirect to where_user_came_from
   end
 
-  def where_user_came_from
-    session[:previous_url] || '/'
-  end
 end
