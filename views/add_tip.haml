@@ -1,5 +1,5 @@
 %h1 Please add a tip!
-%form.form-horizontal
+%form.form-horizontal{action: '#', method: 'post'}
   .panel.panel-default
     .panel-heading Week ?
     .panel-body
@@ -12,13 +12,13 @@
         .col.col-md-10
           %input.form-control.input-md{type: 'text', placeholder: 'Ulimate Frisbee', name: 'sport', required: true}
       .form-group
-        %label.col-md-2.control-label{for: 'match'} Match
+        %label.col-md-2.control-label{for: 'description'} Match
         .col.col-md-10
-          %input.form-control.input-md{type: 'text', placeholder: 'Manly over the Cowboys by 1-12', name: 'match', required: true}
+          %input.form-control.input-md{type: 'text', placeholder: 'Manly over the Cowboys by 1-12', name: 'description', required: true}
       .form-group
         %label.col-md-2.control-label{for: 'odds'} Odds
         .col.col-md-10
-          %input.form-control.input-md{type: 'number', placeholder: '3.20', name: 'odds'}
+          %input.form-control.input-md{type: 'number', placeholder: '3.20', name: 'odds', step: '0.01', min: '1'}
       .form-group
         %label.col-md-2.control-label{for: 'matchtime'} Event Time
         .col.col-md-10
@@ -26,6 +26,10 @@
             %span.input-group-addon{for: 'matchtime'}
               %i.fa.fa-calendar
             %input.form-control.input-md{type: 'datetime', placeholder: '2015-08-07 13:00+1000', name: 'matchtime', required: true}
+      .form-group
+        .col-md-2
+        .col-md-10
+          %button.btn.btn-success{type: 'submit'} Submit Tip
 
 :javascript
   $(document).ready( function() {

@@ -23,12 +23,15 @@ class App < Sinatra::Base
 
   post '/login/attempt' do
     session[:identity] = params['username']
-    where_user_came_from = session[:previous_url] || '/'
     redirect to where_user_came_from
   end
 
   get '/logout' do
     session.delete(:identity)
     redirect to where_user_came_from
+  end
+
+  def where_user_came_from
+    session[:previous_url] || '/'
   end
 end

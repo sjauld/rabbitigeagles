@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20150808011037) do
     t.float    "odds"
     t.integer  "tippingweek"
     t.boolean  "successful"
+    t.boolean  "locked"
+    t.boolean  "deleted"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

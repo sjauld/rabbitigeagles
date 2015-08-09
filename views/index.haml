@@ -17,19 +17,19 @@
         -seconds_to_match = tip.matchtime - Time.now
         %tr
           %th{scope: :row}
-            %a{href: '#'}
+            %a{href: "/tip/#{tip.id}"}
               %i.fa.fa-money
           %td=tip.user
           %td=tip.sport
           %td=tip.description
           %td=sprintf('$%.2f', tip.odds)
-          %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%f hours', seconds_to_match / 3600))
+          %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
           -if tip.successful == nil
             %td
-              %a{href:"#"}
+              %a{href:"/tip/#{tip.id}/success"}
                 %i.fa.fa-thumbs-up
               |
-              %a{href:"#"}
+              %a{href:"/tip/#{tip.id}/smashed"}
                 %i.fa.fa-thumbs-down
           -else
-            %td=tip.successful
+            %td=tip.successful ? 'Win' : 'Lose'

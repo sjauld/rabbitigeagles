@@ -8,6 +8,8 @@ class CreateTips < ActiveRecord::Migration
       t.float :odds
       t.integer :tippingweek
       t.boolean :successful
+      t.boolean :locked
+      t.boolean :deleted
       t.timestamps null: false
     end
   end
