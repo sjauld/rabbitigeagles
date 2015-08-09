@@ -1,4 +1,6 @@
 get '/' do
+  @tips = Tip.order("matchtime DESC")
+  puts @tips.inspect
   haml :index
 end
 

@@ -5,6 +5,7 @@ class CreateTips < ActiveRecord::Migration
       t.string :description
       t.timestamp :matchtime
       t.float :odds
+      t.integer :tippingweek
       t.boolean :successful
       t.timestamps null: false
     end

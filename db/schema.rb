@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20150808011037) do
     t.string   "description"
     t.datetime "matchtime"
     t.float    "odds"
+    t.integer  "tippingweek"
     t.boolean  "successful"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

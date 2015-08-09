@@ -1,1 +1,30 @@
-%p Hello world!
+%h1 Tips
+%table.table.tablesorter
+  %thead
+    %tr
+      %th{scope: :col} Link
+      %th{scope: :col} Tipper
+      %th{scope: :col} Match
+      %th{scope: :col} Odds
+      %th{scope: :col} Time
+      %th{scope: :col} Successful?
+  %tbody
+    -@tips.each do |tip|
+      -seconds_to_match = tip.matchtime - Time.now
+      %tr
+        %th{scope: :row}
+          %a{href: '#'}
+            %i.fa.fa-money
+        %td=tip.user
+        %td=tip.description
+        %td=sprintf('$%.2f', tip.odds)
+        %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%f hours', seconds_to_match / 3600))
+        -if tip.successful == nil
+          %td
+            %a{href:"#"}
+              %i.fa.fa-thumbs-up
+            |
+            %a{href:"#"}
+              %i.fa.fa-thumbs-down
+        -else
+          %td=tip.successful
