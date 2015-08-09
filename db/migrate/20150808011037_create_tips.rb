@@ -2,6 +2,7 @@ class CreateTips < ActiveRecord::Migration
   def change
     create_table :tips do |t|
       t.string :user
+      t.string :sport
       t.string :description
       t.timestamp :matchtime
       t.float :odds

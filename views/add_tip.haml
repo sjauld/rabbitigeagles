@@ -1,0 +1,33 @@
+%h1 Please add a tip!
+%form.form-horizontal
+  .panel.panel-default
+    .panel-heading Week ?
+    .panel-body
+      .form-group
+        %label.col-md-2.control-label{for: 'tipper'} Tipper
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'Insert tipper name', name: 'user', required: true, value:"#{username}"}
+      .form-group
+        %label.col-md-2.control-label{for: 'sport'} Sport
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'Ulimate Frisbee', name: 'sport', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'match'} Match
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'Manly over the Cowboys by 1-12', name: 'match', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'odds'} Odds
+        .col.col-md-10
+          %input.form-control.input-md{type: 'number', placeholder: '3.20', name: 'odds'}
+      .form-group
+        %label.col-md-2.control-label{for: 'matchtime'} Event Time
+        .col.col-md-10
+          .input-group.date#eventTime
+            %span.input-group-addon{for: 'matchtime'}
+              %i.fa.fa-calendar
+            %input.form-control.input-md{type: 'datetime', placeholder: '2015-08-07 13:00+1000', name: 'matchtime', required: true}
+
+:javascript
+  $(document).ready( function() {
+    $('#eventTime').datetimepicker();
+  });

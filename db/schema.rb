@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20150808011037) do
 
   create_table "tips", force: :cascade do |t|
     t.string   "user"
+    t.string   "sport"
     t.string   "description"
     t.datetime "matchtime"
     t.float    "odds"
