@@ -6,12 +6,14 @@
     %thead
       %tr
         %th{scope: :col} Link
+        %th{scope: :col} Week
         %th{scope: :col} Tipper
         %th{scope: :col} Sport
         %th{scope: :col} Match
         %th{scope: :col} Odds
         %th{scope: :col} Time
         %th{scope: :col} Successful?
+        %th{scope: :col} Modify
     %tbody
       -@tips.each do |tip|
         -seconds_to_match = tip.matchtime - Time.now
@@ -19,6 +21,7 @@
           %th{scope: :row}
             %a{href: "/tip/#{tip.id}"}
               %i.fa.fa-money
+          %td=tip.tippingweek
           %td=tip.user
           %td=tip.sport
           %td=tip.description
@@ -33,3 +36,19 @@
                 %i.fa.fa-thumbs-down
           -else
             %td=tip.successful ? 'Win' : 'Lose'
+          -if tip.deleted?
+            %td
+              %i.fa.fa-bomb
+          -elsif tip.locked?
+            %td
+              %i.fa.fa-lock
+          -else
+            %td
+              %a{href:"/tip/#{tip.id}/lock"}
+                %i.fa.fa-lock
+
+              %a{href:"/tip/#{tip.id}/edit"}
+                %i.fa.fa-wrench
+
+              %a{href:"/tip/#{tip.id}/delete"}
+                %i.fa.fa-bomb

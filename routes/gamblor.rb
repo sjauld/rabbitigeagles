@@ -1,6 +1,6 @@
 class App < Sinatra::Base
   get '/' do
-    @tips = Tip.order("matchtime DESC")
+    @tips = Tip.where(deleted:nil).order("matchtime DESC")
     puts @tips.inspect
     haml :index
   end
@@ -16,26 +16,48 @@ class App < Sinatra::Base
     redirect back
   end
 
+  get '/tip/:id/lock' do
+    lock_tip(params[:id])
+    redirect back
+  end
+
+  get '/tip/:id/unlock' do
+    unlock_tip(params[:id])
+    redirect back
+  end
+
   get '/tip/:id/edit' do
     @tip = get_tip(params[:id])
-    haml :edit_tip
+    if @tip.locked
+      'Unable to comply - this tip is locked'
+    else
+      haml :edit_tip
+    end
   end
 
   post '/tip/:id/edit' do
     tip = get_tip(params[:id])
-    tip.update(params.except('splat','captures'))
-    redirect "/tip/#{params[:id]}"
+    if @tip.locked
+      'Unable to comply - this tip is locked'
+    else
+      tip.update(params.except('splat','captures'))
+      redirect "/tip/#{params[:id]}"
+    end
   end
 
   get '/tip/:id' do
-    @tip = get_tip(params[:id])
-    haml :single_tip
+    @tips = [get_tip(params[:id])]
+    haml :index
   end
 
-  delete '/tip/:id' do
-    @tip = get_tip(params[:id])
-    @tip.deleted = true
-    @tip.save
+  get '/tip/:id/delete' do
+    delete_tip(params[:id])
+    redirect '/'
+  end
+
+  get '/tip/:id/undelete' do
+    undelete_tip(params[:id])
+    redirect '/'
   end
 
   # Add new tips
@@ -58,7 +80,42 @@ class App < Sinatra::Base
 
   def update_result(id,result)
     tip = get_tip(params[:id])
-    tip.successful = result
+    unless tip.locked
+      tip.successful = result
+      tip.save
+    end
+  end
+
+  def delete(id)
+    tip = get_tip(id)
+    unless tip.locked
+      tip.deleted = true
+      tip.save
+    end
+  end
+
+  def lock_tip(id)
+    tip = get_tip(id)
+    tip.locked = true
     tip.save
+  end
+
+  def unlock_tip(id)
+    tip = get_tip(id)
+    tip.locked = nil
+    tip.save
+  end
+
+  def undelete_tip(id)
+    tip = get_tip(id)
+    tip.deleted = nil
+    tip.save
+  end
+
+
+  helpers do
+    def current_week
+      (( Date.today - Date.parse(ENV['TIPPING_START']) ) / 7).ceil
+    end
   end
 end

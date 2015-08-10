@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler'
 ENV['RACK_ENV'] ||= 'development'
+ENV['TIPPING_START'] ||= '2015-08-03'
 Bundler.require(:core, :assets, ENV['RACK_ENV'])
 
 require 'sinatra/asset_pipeline'
