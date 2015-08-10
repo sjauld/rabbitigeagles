@@ -1,16 +1,17 @@
--if @tips.empty?
-  %h1="There are no tips yet for week #{@week}"
--elsif @results.nil?
-  %h1 Tip edit page
+-if @results.nil?
+  %h1 Edit a tip
 -else
-  %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} | #{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])}"
-%ul.breadcrumb
-  %li
-    %a{href: "/?week=#{@week.to_i - 1}"}
-      %i.fa.fa-long-arrow-left
-  %li
-    %a{href: "/?week=#{@week.to_i + 1}"}
-      %i.fa.fa-long-arrow-right
+  -if @tips.empty?
+    %h1="There are no tips yet for week #{@week}"
+  -else
+    %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} | #{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])}"
+  %ul.breadcrumb
+    %li
+      %a{href: "/?week=#{@week.to_i - 1}"}
+        %i.fa.fa-long-arrow-left
+    %li
+      %a{href: "/?week=#{@week.to_i + 1}"}
+        %i.fa.fa-long-arrow-right
 %h1 Tip History
 %table.table.tablesorter
   %thead
