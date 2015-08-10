@@ -4,7 +4,7 @@
   -if @tips.empty?
     %h1="There are no tips yet for week #{@week}"
   -else
-    %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} | #{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])}"
+    %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} (#{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])})"
   %ul.breadcrumb
     %li
       %a{href: "/?week=#{@week.to_i - 1}"}
@@ -28,7 +28,8 @@
   %tbody
     -@tips.each do |tip|
       -seconds_to_match = tip.matchtime - Time.now
-      %tr
+      -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
+      %tr{class: row_class}
         %th{scope: :row}
           %a{href: "/tip/#{tip.id}"}
             %i.fa.fa-money
