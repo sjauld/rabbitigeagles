@@ -8,12 +8,24 @@ class App < Sinatra::Base
   # Tipping information
   get '/tip/:id/success' do
     update_result(params[:id],true)
-    redirect to where_user_came_from
+    redirect back
   end
 
   get '/tip/:id/smashed' do
     update_result(params[:id],false)
-    redirect to where_user_came_from
+    redirect back
+  end
+
+  get '/tip/:id/edit' do
+    @tip = get_tip(params[:id])
+    puts @tip.matchtime.inspect
+    haml :edit_tip
+  end
+
+  post '/tip/:id/edit' do
+    tip = get_tip(params[:id])
+    tip.update(params.except('splat','captures'))
+    redirect "/tip/#{params[:id]}"
   end
 
   get '/tip/:id' do

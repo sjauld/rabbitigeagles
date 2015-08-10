@@ -32,7 +32,6 @@ class App < Sinatra::Base
   end
 
   def where_user_came_from
-    # I don't think this works yet :(
     session[:previous_url] || '/'
   end
 
