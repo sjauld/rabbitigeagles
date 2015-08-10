@@ -18,7 +18,6 @@ class App < Sinatra::Base
 
   get '/tip/:id/edit' do
     @tip = get_tip(params[:id])
-    puts @tip.matchtime.inspect
     haml :edit_tip
   end
 
