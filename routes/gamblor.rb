@@ -17,6 +17,11 @@ class App < Sinatra::Base
     redirect back
   end
 
+  get '/tip/:id/void' do
+    update_result(params[:id],nil)
+    redirect back
+  end
+
   get '/tip/:id/lock' do
     lock_tip(params[:id])
     redirect back
@@ -87,14 +92,6 @@ class App < Sinatra::Base
     end
   end
 
-  def delete(id)
-    tip = get_tip(id)
-    unless tip.locked
-      tip.deleted = true
-      tip.save
-    end
-  end
-
   def lock_tip(id)
     tip = get_tip(id)
     tip.locked = true
@@ -105,6 +102,14 @@ class App < Sinatra::Base
     tip = get_tip(id)
     tip.locked = nil
     tip.save
+  end
+
+  def delete_tip(id)
+    tip = get_tip(id)
+    unless tip.locked
+      tip.deleted = true
+      tip.save
+    end
   end
 
   def undelete_tip(id)
