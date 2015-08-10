@@ -1,54 +1,62 @@
 -if @tips.empty?
-  %h1 Error - there are no tips!
+  %h1="There are no tips yet for week #{@week}"
 -else
-  %h1 Tips
-  %table.table.tablesorter
-    %thead
+  %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} | #{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])}"
+%ul.breadcrumb
+  %li
+    %a{href: "/?week=#{@week.to_i - 1}"}
+      %i.fa.fa-long-arrow-left
+  %li
+    %a{href: "/?week=#{@week.to_i + 1}"}
+      %i.fa.fa-long-arrow-right
+%h1 Tip History
+%table.table.tablesorter
+  %thead
+    %tr
+      %th{scope: :col} Link
+      %th{scope: :col} Week
+      %th{scope: :col} Tipper
+      %th{scope: :col} Sport
+      %th{scope: :col} Match
+      %th{scope: :col} Odds
+      %th{scope: :col} Time
+      %th{scope: :col} Successful?
+      %th{scope: :col} Modify
+  %tbody
+    -@tips.each do |tip|
+      -seconds_to_match = tip.matchtime - Time.now
       %tr
-        %th{scope: :col} Link
-        %th{scope: :col} Week
-        %th{scope: :col} Tipper
-        %th{scope: :col} Sport
-        %th{scope: :col} Match
-        %th{scope: :col} Odds
-        %th{scope: :col} Time
-        %th{scope: :col} Successful?
-        %th{scope: :col} Modify
-    %tbody
-      -@tips.each do |tip|
-        -seconds_to_match = tip.matchtime - Time.now
-        %tr
-          %th{scope: :row}
-            %a{href: "/tip/#{tip.id}"}
-              %i.fa.fa-money
-          %td=tip.tippingweek
-          %td=tip.user
-          %td=tip.sport
-          %td=tip.description
-          %td=sprintf('$%.2f', tip.odds)
-          %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
-          -if tip.successful == nil
-            %td
-              %a{href:"/tip/#{tip.id}/success"}
-                %i.fa.fa-thumbs-up
-              |
-              %a{href:"/tip/#{tip.id}/smashed"}
-                %i.fa.fa-thumbs-down
-          -else
-            %td=tip.successful ? 'Win' : 'Lose'
-          -if tip.deleted?
-            %td
-              %i.fa.fa-bomb
-          -elsif tip.locked?
-            %td
+        %th{scope: :row}
+          %a{href: "/tip/#{tip.id}"}
+            %i.fa.fa-money
+        %td=tip.tippingweek
+        %td=tip.user
+        %td=tip.sport
+        %td=tip.description
+        %td=sprintf('$%.2f', tip.odds)
+        %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
+        -if tip.successful == nil
+          %td
+            %a{href:"/tip/#{tip.id}/success"}
+              %i.fa.fa-thumbs-up
+            |
+            %a{href:"/tip/#{tip.id}/smashed"}
+              %i.fa.fa-thumbs-down
+        -else
+          %td=tip.successful ? 'Win' : 'Lose'
+        -if tip.deleted?
+          %td
+            %i.fa.fa-bomb
+        -elsif tip.locked?
+          %td
+            %i.fa.fa-lock
+        -else
+          %td
+            %a{href:"/tip/#{tip.id}/lock"}
               %i.fa.fa-lock
-          -else
-            %td
-              %a{href:"/tip/#{tip.id}/lock"}
-                %i.fa.fa-lock
 
-              %a{href:"/tip/#{tip.id}/edit"}
-                %i.fa.fa-wrench
+            %a{href:"/tip/#{tip.id}/edit"}
+              %i.fa.fa-wrench
 
-              %a{href:"/tip/#{tip.id}/delete"}
-                %i.fa.fa-bomb
+            %a{href:"/tip/#{tip.id}/delete"}
+              %i.fa.fa-bomb

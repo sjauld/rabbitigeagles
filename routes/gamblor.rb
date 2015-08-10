@@ -1,7 +1,8 @@
 class App < Sinatra::Base
   get '/' do
-    @tips = Tip.where(deleted:nil).order("matchtime DESC")
-    puts @tips.inspect
+    @week = params[:week] || current_week
+    @tips = Tip.where(tippingweek: @week).order("matchtime DESC").reject{|x| x.deleted}
+    @results = get_results(@tips)
     haml :index
   end
 
@@ -112,6 +113,26 @@ class App < Sinatra::Base
     tip.save
   end
 
+  def get_results(tips)
+    successes = tips.select{|x| x.successful}
+    s_return = calculate_payout(successes)
+    t_return = calculate_payout(tips)
+    return {
+      success: successes.count,
+      total: tips.count,
+      s_return: s_return,
+      t_return: t_return
+    }
+  end
+
+  def calculate_payout(tips)
+    # we use all 6x, 5x, 4x and 3x combinations
+    total = 0
+    (3..6).each do |i|
+      total += tips.map{|x| x.odds}.combination(i).to_a.map{|x| x.reduce(:*)}.reduce(:+).to_f
+    end
+    return total
+  end
 
   helpers do
     def current_week
