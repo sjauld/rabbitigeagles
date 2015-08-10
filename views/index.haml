@@ -1,5 +1,7 @@
 -if @tips.empty?
   %h1="There are no tips yet for week #{@week}"
+-elsif @results.nil?
+  %h1 Tip edit page
 -else
   %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} | #{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])}"
 %ul.breadcrumb
