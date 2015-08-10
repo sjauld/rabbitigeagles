@@ -14,7 +14,7 @@ class App < Sinatra::Base
   def get_stats(users)
     results = []
     users.each do |user|
-      user_tips = Tip.where(user: user)
+      user_tips = Tip.where(user: user).reject{|x| x.deleted}
       results << {
         user: user,
         successes: user_tips.select{|x| x.successful}.count,
