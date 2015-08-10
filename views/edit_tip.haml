@@ -33,5 +33,5 @@
 
 :javascript
   $(document).ready( function() {
-    $('#eventTime').datetimepicker({ defaultDate: '#{@tip.matchtime}', disabledDates: [moment('#{@tip.matchtime}')]});
+    $('#eventTime').datetimepicker({ defaultDate: '#{@tip.matchtime}', locale: 'en-au', format: 'YYYY-MM-DD HH:mm:ss'});
   });
