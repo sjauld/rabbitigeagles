@@ -13,7 +13,7 @@ class App < Sinatra::Base
     end
   end
 
-  before '/secure/*' do
+  before %r{/(secure|tip)/*} do
     unless session[:identity]
       session[:previous_url] = request.path
       @error = 'Sorry, you need to be logged in to visit ' + request.path
