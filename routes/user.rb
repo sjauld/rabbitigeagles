@@ -1,5 +1,5 @@
 class App < Sinatra::Base
-  get '/users' do
+  get '/users/' do
     @user_stats = get_stats(select_all_users)
     haml :users
   end

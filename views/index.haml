@@ -37,7 +37,7 @@
         %td=tip.user
         %td=tip.sport
         %td=tip.description
-        %td=sprintf('$%.2f', tip.odds)
+        %td=sprintf('$%.2f', tip.odds.to_f)
         %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
         -if tip.successful == nil
           %td

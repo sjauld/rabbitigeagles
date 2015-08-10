@@ -141,7 +141,15 @@ class App < Sinatra::Base
 
   helpers do
     def current_week
-      (( Date.today - Date.parse(ENV['TIPPING_START']) ) / 7).ceil
+      Tip.maximum(:tippingweek)
+    end
+
+    def current_tipping_week
+      if Tip.where(tippingweek: current_week).reject{|x| x.locked || x.deleted}.count > 0
+        current_week
+      else
+        current_week + 1
+      end
     end
   end
 end
