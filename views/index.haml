@@ -26,7 +26,7 @@
       %th{scope: :col} Successful?
       %th{scope: :col} Modify
   %tbody
-    -@tips.each do |tip|
+    -@tips.compact.each do |tip|
       -seconds_to_match = tip.matchtime - Time.now rescue 2397600
       -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
       %tr{class: row_class}
