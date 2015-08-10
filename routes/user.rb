@@ -21,7 +21,7 @@ class App < Sinatra::Base
         total: user_tips.reject{|x| x.successful == nil}.count
       }
     end
-    results
+    results.sort{|x| x[:successes]}.reverse
   end
 
 end
