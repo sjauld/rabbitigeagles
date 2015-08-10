@@ -38,7 +38,7 @@ class App < Sinatra::Base
 
   post '/tip/:id/edit' do
     tip = get_tip(params[:id])
-    if @tip.locked
+    if tip.locked
       'Unable to comply - this tip is locked'
     else
       tip.update(params.except('splat','captures'))
