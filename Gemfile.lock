@@ -42,6 +42,8 @@ GEM
       rails-assets-jquery (>= 1.8.3)
       rails-assets-moment (>= 2.9.0)
     rails-assets-jquery (2.1.4)
+    rails-assets-jquery.tablesorter (2.21.2)
+      rails-assets-jquery (>= 1.2.6)
     rails-assets-moment (2.10.6)
     rake (10.4.2)
     ripl (0.7.1)
@@ -106,6 +108,7 @@ DEPENDENCIES
   rails-assets-bootstrap!
   rails-assets-bootstrap3-datetimepicker!
   rails-assets-jquery!
+  rails-assets-jquery.tablesorter!
   rails-assets-moment!
   sinatra!
   sinatra-activerecord!

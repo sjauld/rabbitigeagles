@@ -2,3 +2,4 @@
 //= require moment
 //= require bootstrap
 //= require bootstrap3-datetimepicker
+//= require jquery.tablesorter
