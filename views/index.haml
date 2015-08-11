@@ -1,18 +1,37 @@
--if @results.nil?
-  %h1 Edit a tip
--else
-  -if @tips.empty?
-    %h1="There are no tips yet for week #{@week}"
-  -else
-    %h1="Week #{@week} results: #{@results[:success]} / #{@results[:total]} (#{sprintf('$%.2f',@results[:s_return])} / #{sprintf('$%.2f',@results[:t_return])})"
-  %ul.breadcrumb
+%ul.breadcrumb
+  -unless @week.to_i < 2
     %li
       %a{href: "/?week=#{@week.to_i - 1}"}
         %i.fa.fa-long-arrow-left
-    %li
-      %a{href: "/?week=#{@week.to_i + 1}"}
-        %i.fa.fa-long-arrow-right
-%h1 Tip History
+  %li
+    %span="Week #{@week.to_i}"
+  %li
+    %a{href: "/?week=#{@week.to_i + 1}"}
+      %i.fa.fa-long-arrow-right
+-if @tips.empty?
+  %h1="There are no tips yet for week #{@week}"
+-else
+  %h1="Payouts"
+%table.table
+  %thead
+    %tr
+      %th{scope: :col} Status
+      %th{scope: :col} Number of tips
+      %th{scope: :col} Return
+  %tbody
+    %tr
+      %th{scope: :row} Total
+      %td=@results[:total]
+      %td=sprintf('$%.2f',@results[:t_return])
+    %tr
+      %th{scope: :row} Still alive
+      %td=@results[:possible]
+      %td=sprintf('$%.2f',@results[:p_return])
+    %tr
+      %th{scope: :row} Acutal win
+      %td=@results[:success]
+      %td=sprintf('$%.2f',@results[:s_return])
+%h1 Tip Detail
 %table.table.tablesorter
   %thead
     %tr

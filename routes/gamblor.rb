@@ -120,12 +120,16 @@ class App < Sinatra::Base
 
   def get_results(tips)
     successes = tips.select{|x| x.successful}
+    possible = tips.reject{|x| x.successful == false}
     s_return = calculate_payout(successes)
+    p_return = calculate_payout(possible)
     t_return = calculate_payout(tips)
     return {
       success: successes.count,
+      possible: possible.count,
       total: tips.count,
       s_return: s_return,
+      p_return: p_return,
       t_return: t_return
     }
   end
