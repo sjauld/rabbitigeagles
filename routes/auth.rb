@@ -13,7 +13,7 @@ class App < Sinatra::Base
     end
   end
 
-  before %r{/(secure|tip)/*} do
+  before %r{/secure/*} do
     unless session[:identity]
       session[:previous_url] = request.path
       @error = 'Sorry, you need to be logged in to visit ' + request.path
@@ -32,7 +32,7 @@ class App < Sinatra::Base
 
   get '/logout' do
     session.delete(:identity)
-    redirect to where_user_came_from
+    redirect '/'
   end
 
 end

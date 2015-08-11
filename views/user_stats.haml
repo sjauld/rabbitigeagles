@@ -1,4 +1,4 @@
--if @user_stats.nil?
+-if @stats.nil?
   %h1 No users Found :(
 -else
   %h1 User Stats!
@@ -8,7 +8,7 @@
         %th{scope: :col} Name
         %th{scope: :col} Stats
     %tbody
-      -@user_stats.each do |user|
+      -@stats.each do |user|
         %tr
           %th{scope: :row}=user[:user]
           %td="#{user[:successes]}/#{user[:total]} (#{(user[:successes].to_f/user[:total].to_f * 100).to_i rescue 'N/A'}%)"

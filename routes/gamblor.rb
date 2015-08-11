@@ -52,8 +52,8 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id' do
-    @tips = [get_tip(params[:id])]
-    haml :index
+    @tip = get_tip(params[:id])
+    haml :single_tip
   end
 
   get '/tip/:id/delete' do
