@@ -4,7 +4,7 @@ class App < Sinatra::Base
 
   get '/' do
     @week = params[:week] || current_week
-    @tips = Tip.where(tippingweek: @week).order("matchtime DESC").reject{|x| x.deleted}
+    @tips = Tip.where(tippingweek: @week).order("matchtime ASC").reject{|x| x.deleted}
     @results = get_results(@tips)
     haml :index
   end
