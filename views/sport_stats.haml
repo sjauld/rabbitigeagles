@@ -6,10 +6,10 @@
     %thead
       %tr
         %th{scope: :col} Sport
-        %th{scope: :col} Stats
+        %th.numeric{scope: :col} Stats
     %tbody
       -@stats.each do |sport|
         %tr
           %th{scope: :row}
             %a{href: "/sports/#{sport[:sport]}"}=sport[:sport]
-          %td="#{sport[:successes]}/#{sport[:total]} (#{(sport[:successes].to_f/sport[:total].to_f * 100).to_i rescue 'N/A'}%)"
+          %td.numeric="#{sport[:successes]}/#{sport[:total]} (#{(sport[:successes].to_f/sport[:total].to_f * 100).to_i rescue 'N/A'}%)"

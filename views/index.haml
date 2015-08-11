@@ -16,32 +16,32 @@
   %thead
     %tr
       %th{scope: :col} Status
-      %th{scope: :col} Number of tips
-      %th{scope: :col} Return
+      %th.numeric{scope: :col} Number of tips
+      %th.numeric{scope: :col} Return
   %tbody
     %tr
       %th{scope: :row} Total
-      %td=@results[:total]
-      %td=sprintf('$%.2f',@results[:t_return])
+      %td.numeric=@results[:total]
+      %td.numeric="$#{sprintf('%.2f',@results[:t_return]).reverse.gsub(/[0-9]{3}(?=.)/,'\&,').reverse}"
     %tr
       %th{scope: :row} Still alive
-      %td=@results[:possible]
-      %td=sprintf('$%.2f',@results[:p_return])
+      %td.numeric=@results[:possible]
+      %td.numeric="$#{sprintf('%.2f',@results[:p_return]).reverse.gsub(/[0-9]{3}(?=.)/,'\&,').reverse}"
     %tr
       %th{scope: :row} Acutal win
-      %td=@results[:success]
-      %td=sprintf('$%.2f',@results[:s_return])
+      %td.numeric=@results[:success]
+      %td.numeric="$#{sprintf('%.2f',@results[:s_return]).reverse.gsub(/[0-9]{3}(?=.)/,'\&,').reverse}"
 %h1 Tip Detail
 %table.table
   %thead
     %tr
       %th{scope: :col} Link
-      %th{scope: :col} Week
+      %th.numeric{scope: :col} Week
       %th{scope: :col} Tipper
       %th{scope: :col} Sport
       %th{scope: :col} Match
-      %th{scope: :col} Odds
-      %th{scope: :col} Time
+      %th.numeric{scope: :col} Odds
+      %th.numeric{scope: :col} Time
       %th{scope: :col} Successful?
       %th{scope: :col} Modify
   %tbody
@@ -52,14 +52,14 @@
         %th{scope: :row}
           %a{href: "/tip/#{tip.id}"}
             %i.fa.fa-money
-        %td=tip.tippingweek
+        %td.numeric=tip.tippingweek
         %td
           %a{href:"/users/#{tip.user}"}=tip.user
         %td
           %a{href:"/sports/#{tip.sport}"}=tip.sport
         %td=tip.description
-        %td=sprintf('$%.2f', tip.odds.to_f)
-        %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
+        %td.numeric=sprintf('$%.2f', tip.odds.to_f)
+        %td.numeric=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
         -if tip.successful == nil
           %td
             %a{href:"/tip/#{tip.id}/success"}
