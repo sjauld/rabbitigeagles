@@ -9,6 +9,18 @@ class App < Sinatra::Base
     haml :sport_stats
   end
 
+  get '/users/:user' do
+    @view = params[:user]
+    @tips = get_tips_by_user(@view)
+    haml :multi_tip
+  end
+
+  get '/sports/:sport' do
+    @view = params[:sport]
+    @tips = get_tips_by_sport(@view)
+    haml :multi_tip
+  end
+
   #######
   private
   #######
@@ -20,10 +32,18 @@ class App < Sinatra::Base
     Tip.uniq.pluck(:sport)
   end
 
+  def get_tips_by_user(user)
+    Tip.where(user: user).reject{|x| x.deleted}
+  end
+
+  def get_tips_by_sport(sport)
+    Tip.where(sport: sport).reject{|x| x.deleted}
+  end
+
   def get_user_stats(users)
     results = []
     users.each do |user|
-      user_tips = Tip.where(user: user).reject{|x| x.deleted}
+      user_tips = get_tips_by_user(user)
       results << {
         user: user,
         successes: user_tips.select{|x| x.successful}.count,
@@ -36,7 +56,7 @@ class App < Sinatra::Base
   def get_sport_stats(sports)
     results = []
     sports.each do |sport|
-      sport_tips = Tip.where(sport: sport).reject{|x| x.deleted}
+      sport_tips = get_tips_by_sport(sport)
       puts "sport: #{sport} / #{sport_tips.inspect}"
       percent = sport_tips.select{|x| x.successful}.count * 100 / sport_tips.reject{|x| x.successful == nil}.count rescue -1
       results << {

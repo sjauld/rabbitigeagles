@@ -1,37 +1,7 @@
-%ul.breadcrumb
-  -unless @week.to_i < 2
-    %li
-      %a{href: "/?week=#{@week.to_i - 1}"}
-        %i.fa.fa-long-arrow-left
-  %li
-    %span="Week #{@week.to_i}"
-  %li
-    %a{href: "/?week=#{@week.to_i + 1}"}
-      %i.fa.fa-long-arrow-right
 -if @tips.empty?
-  %h1="There are no tips yet for week #{@week}"
+  %h1="There are no tips yet for #{@view}"
 -else
-  %h1 Payouts
-%table.table
-  %thead
-    %tr
-      %th{scope: :col} Status
-      %th{scope: :col} Number of tips
-      %th{scope: :col} Return
-  %tbody
-    %tr
-      %th{scope: :row} Total
-      %td=@results[:total]
-      %td=sprintf('$%.2f',@results[:t_return])
-    %tr
-      %th{scope: :row} Still alive
-      %td=@results[:possible]
-      %td=sprintf('$%.2f',@results[:p_return])
-    %tr
-      %th{scope: :row} Acutal win
-      %td=@results[:success]
-      %td=sprintf('$%.2f',@results[:s_return])
-%h1 Tip Detail
+  %h1="Tip Detail - #{@view}"
 %table.table.tablesorter
   %thead
     %tr

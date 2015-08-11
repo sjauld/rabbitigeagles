@@ -138,7 +138,7 @@ class App < Sinatra::Base
     # we use all 6x, 5x, 4x and 3x combinations
     total = 0
     (3..6).each do |i|
-      total += tips.map{|x| x.odds}.combination(i).to_a.map{|x| x.reduce(:*)}.reduce(:+).to_f
+      total += tips.map{|x| x.odds.to_f}.combination(i).to_a.map{|x| x.reduce(:*)}.reduce(:+).to_f
     end
     return total
   end
