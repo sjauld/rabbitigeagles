@@ -1,4 +1,7 @@
 class App < Sinatra::Base
+
+  include Rack::Utils
+
   get '/' do
     @week = params[:week] || current_week
     @tips = Tip.where(tippingweek: @week).order("matchtime DESC").reject{|x| x.deleted}
@@ -42,11 +45,12 @@ class App < Sinatra::Base
   end
 
   post '/tip/:id/edit' do
+    nice_params = escape_html_for_set(params)
     tip = get_tip(params[:id])
     if tip.locked
       'Unable to comply - this tip is locked'
     else
-      tip.update(params.except('splat','captures'))
+      tip.update(nice_params.except('splat','captures'))
       redirect "/tip/#{params[:id]}"
     end
   end
@@ -72,7 +76,8 @@ class App < Sinatra::Base
   end
 
   post '/secure/add-tip' do
-    result = Tip.create(params)
+    nice_params = escape_html_for_set(params)
+    result = Tip.create(nice_params)
     redirect "/tip/#{result.id}"
   end
 
@@ -142,6 +147,15 @@ class App < Sinatra::Base
     end
     return total
   end
+
+  def escape_html_for_set(things)
+    new_things = {}
+    things.each do |k,v|
+      new_things[k] = escape_html(v)
+    end
+    return new_things
+  end
+
 
   helpers do
     def current_week
