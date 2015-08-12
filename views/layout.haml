@@ -68,7 +68,20 @@
                   %a{:href => "/logout"} Logout
         / /.nav-collapse
       %div
-        - if @error then
-          .alert.alert-error= @error
+        - if flash[:error] then
+          .alert.alert-danger
+            %i.fa.fa-exclamation-triangle
+            = flash[:error]
+            %button.close{type: 'button', 'data-dismiss': 'alert', 'aria-label': 'Close'}
+              %span{'aria-hidden': 'true'}
+                %i.fa.fa-times
+
+        - if flash[:notice] then
+          .alert.alert-success
+            %i.fa.fa-check-square
+            = flash[:notice]
+            %button.close{type: 'button', 'data-dismiss': 'alert', 'aria-label': 'Close'}
+              %span{'aria-hidden': 'true'}
+                %i.fa.fa-times
 
         = yield

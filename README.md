@@ -1,5 +1,4 @@
 # Hello!
-======
 
 This is a simple app to track the results of a betting syndicate.
 
@@ -8,7 +7,6 @@ Each week the syndicate puts in 1 tip per person (6 in total), then we bet on th
 Skeleton based on https://github.com/bootstrap-ruby/sinatra-bootstrap
 
 # Install
-======
 
 I just deploy the thing to Heroku but you could put it wherever. Clone it and then run the following setup:
 ```
@@ -17,7 +15,7 @@ rake assets:precompile (heroku does this for you)
 ```
 
 # Configure
-======
+
 If you had a different betting pattern you could just edit routes/gamblor.rb#calculate_payout to match what you're doing. At the moment it looks like this:
 ```
 def calculate_payout(tips)

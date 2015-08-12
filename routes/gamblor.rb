@@ -3,6 +3,7 @@ class App < Sinatra::Base
   include Rack::Utils
 
   get '/' do
+    puts flash.inspect
     @week = params[:week] || current_week
     @tips = Tip.where(tippingweek: @week).order("matchtime ASC").reject{|x| x.deleted}
     @results = get_results(@tips)
@@ -12,33 +13,33 @@ class App < Sinatra::Base
   # Tipping information
   get '/tip/:id/success' do
     update_result(params[:id],true)
-    redirect back
+    redirect back, notice: "Another win! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
   end
 
   get '/tip/:id/smashed' do
     update_result(params[:id],false)
-    redirect back
+    redirect back, notice: "Bugger! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
   end
 
   get '/tip/:id/void' do
     update_result(params[:id],nil)
-    redirect back
+    redirect back, notice: "Result cleared."
   end
 
   get '/tip/:id/lock' do
     lock_tip(params[:id])
-    redirect back
+    redirect back, notice: "Tip locked! <a href='/tip/#{params[:id]}/unlock'>(undo)</a>"
   end
 
   get '/tip/:id/unlock' do
     unlock_tip(params[:id])
-    redirect back
+    redirect back, notice: "Tip unlocked! <a href='/tip/#{params[:id]}/lock'>(undo)</a>"
   end
 
   get '/tip/:id/edit' do
     @tip = get_tip(params[:id])
     if @tip.locked
-      'Unable to comply - this tip is locked'
+      redirect "/tip/#{params[:id]}", error: 'Unable to edit tip - it is locked'
     else
       haml :edit_tip
     end
@@ -48,10 +49,10 @@ class App < Sinatra::Base
     nice_params = escape_html_for_set(params)
     tip = get_tip(params[:id])
     if tip.locked
-      'Unable to comply - this tip is locked'
+      redirect "/tip/#{params[:id]}", error: 'Unable to edit tip - it is locked'
     else
       tip.update(nice_params.except('splat','captures'))
-      redirect "/tip/#{params[:id]}"
+      redirect "/tip/#{params[:id]}", notice: 'Tip updated!'
     end
   end
 
@@ -62,12 +63,12 @@ class App < Sinatra::Base
 
   get '/tip/:id/delete' do
     delete_tip(params[:id])
-    redirect '/'
+    redirect '/', notice: "Tip deleted! <a href='/tip/#{params[:id]}/undelete'>(undo)</a>"
   end
 
   get '/tip/:id/undelete' do
     undelete_tip(params[:id])
-    redirect '/'
+    redirect '/', notice: "Tip undeleted! <a href='/tip/#{params[:id]}/delete'>(undo)</a>"
   end
 
   # Add new tips
@@ -78,7 +79,7 @@ class App < Sinatra::Base
   post '/secure/add-tip' do
     nice_params = escape_html_for_set(params)
     result = Tip.create(nice_params)
-    redirect "/tip/#{result.id}"
+    redirect '/', notice: "Tip added successfully!"
   end
 
   #######

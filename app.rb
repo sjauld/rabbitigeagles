@@ -4,13 +4,23 @@ ENV['RACK_ENV'] ||= 'development'
 Bundler.require(:core, :assets, ENV['RACK_ENV'])
 
 require 'sinatra/asset_pipeline'
+require 'sinatra/flash'
+require 'sinatra/redirect_with_flash'
+
 
 class App < Sinatra::Base
+
+
   configure do
     set :assets_precompile, %w(app.js app.css *.png *.jpg *.svg *.eot *.ttf *.woff)
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
     register Sinatra::AssetPipeline
+
+    # sinatra-flash
+    enable :sessions
+    register Sinatra::Flash
+    helpers Sinatra::RedirectWithFlash
 
     # Actual Rails Assets integration, everything else is Sprockets
     if defined?(RailsAssets)
