@@ -1,11 +1,15 @@
+# Core stuffs
 require 'rubygems'
 require 'bundler'
 ENV['RACK_ENV'] ||= 'development'
 Bundler.require(:core, :assets, ENV['RACK_ENV'])
-
 require 'dotenv'
 Dotenv.load
 
+# email is fun
+require './extensions/postmark'
+
+# some sinatra things
 require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
