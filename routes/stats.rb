@@ -44,7 +44,7 @@ class App < Sinatra::Base
     results = []
     users.each do |user|
       user_tips = get_tips_by_user(user)
-      unless user_tips == 0
+      unless user_tips.count == 0
         percent = user_tips.select{|x| x.successful}.count * 100 / user_tips.reject{|x| x.successful == nil}.count rescue -1
         results << {
           user: user,
@@ -61,7 +61,7 @@ class App < Sinatra::Base
     results = []
     sports.each do |sport|
       sport_tips = get_tips_by_sport(sport)
-      unless sport_tips == 0
+      unless sport_tips.count == 0
         puts "sport: #{sport} / #{sport_tips.inspect}"
         percent = sport_tips.select{|x| x.successful}.count * 100 / sport_tips.reject{|x| x.successful == nil}.count rescue -1
         results << {
