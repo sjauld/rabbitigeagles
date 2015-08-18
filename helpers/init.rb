@@ -11,7 +11,7 @@ def current_tipping_week
 end
 
 def current_tipping_status
-  tips = Tip.where(tippingweek: current_week)
+  tips = Tip.where(tippingweek: current_week).reject{|x| x.deleted}
   if tips.count == 0
     return 'Noone has entered their tips yet. This makes Steve Menzies sad.'
   else
