@@ -10,6 +10,9 @@ source 'https://rubygems.org' do
     gem 'sinatra-redirect-with-flash'
     gem 'sinatra-asset-pipeline'
     gem 'uglifier'
+    gem 'dotenv'
+    gem 'postmark'
+    gem 'mail'
   end
 
   group :development do

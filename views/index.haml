@@ -28,7 +28,7 @@
       %td.numeric=@results[:possible]
       %td.numeric="$#{sprintf('%.2f',@results[:p_return]).reverse.gsub(/[0-9]{3}(?=.)/,'\&,').reverse}"
     %tr
-      %th{scope: :row} Acutal win
+      %th{scope: :row} Actual win
       %td.numeric=@results[:success]
       %td.numeric="$#{sprintf('%.2f',@results[:s_return]).reverse.gsub(/[0-9]{3}(?=.)/,'\&,').reverse}"
 %h1 Tip Detail

@@ -3,6 +3,9 @@ require 'bundler'
 ENV['RACK_ENV'] ||= 'development'
 Bundler.require(:core, :assets, ENV['RACK_ENV'])
 
+require 'dotenv'
+Dotenv.load
+
 require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
@@ -34,6 +37,7 @@ end
 
 require './config/environments'
 require './routes/init'
+require './helpers/init'
 
 class Tip < ActiveRecord::Base
 end

@@ -157,18 +157,4 @@ class App < Sinatra::Base
     return new_things
   end
 
-
-  helpers do
-    def current_week
-      Tip.maximum(:tippingweek)
-    end
-
-    def current_tipping_week
-      if Tip.where(tippingweek: current_week).reject{|x| x.locked || x.deleted}.count > 0
-        current_week
-      else
-        current_week + 1
-      end
-    end
-  end
 end
