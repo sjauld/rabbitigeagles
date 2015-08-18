@@ -27,8 +27,13 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id/lock' do
-    lock_tip(params[:id])
-    redirect back, notice: "Tip locked! <a href='/tip/#{params[:id]}/unlock'>(undo)</a>"
+    @tip = get_tip(params[:id])
+    if @tip.successful.nil?
+      redirect back, notice: "No result yet!"
+    else
+      lock_tip(params[:id])
+      redirect back, notice: "Tip locked! <a href='/tip/#{params[:id]}/unlock'>(undo)</a>"
+    end
   end
 
   get '/tip/:id/unlock' do
