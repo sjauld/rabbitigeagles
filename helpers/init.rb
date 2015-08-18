@@ -13,9 +13,19 @@ end
 def current_tipping_status
   tips = Tip.where(tippingweek: current_week)
   if tips.count == 0
-    the_body = 'Noone has entered their tips yet. This makes Steve Menzies sad.'
+    return 'Noone has entered their tips yet. This makes Steve Menzies sad.'
   else
-    the_body = tips.map{|x| "#{x.user}: #{x.description}"}.join("\n")
+    return tips.map{|x| "#{x.user}: #{x.description}"}.join("\n")
   end
-  return the_body
+end
+
+def email_the_bastards(subject,pre)
+  message = Mail.new do
+    from    ENV['TIPPING_FROM_ADDRESS']
+    to      ENV['TIPPING_MAILING_LIST']
+    subject subject
+    body    "#{pre}\n\nCurrent tips:-\n#{current_tipping_status}\n\n--\nTigersearabbit Tipping System"
+    delivery_method Mail::Postmark, api_token: ENV['POSTMARK_API_TOKEN']
+  end
+  message.deliver
 end
