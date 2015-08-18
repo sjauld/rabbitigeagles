@@ -44,11 +44,13 @@ class App < Sinatra::Base
     results = []
     users.each do |user|
       user_tips = get_tips_by_user(user)
-      results << {
-        user: user,
-        successes: user_tips.select{|x| x.successful}.count,
-        total: user_tips.reject{|x| x.successful == nil}.count
-      }
+      unless user_tips == 0
+        results << {
+          user: user,
+          successes: user_tips.select{|x| x.successful}.count,
+          total: user_tips.reject{|x| x.successful == nil}.count
+        }
+      end
     end
     results.sort_by{|x| x[:successes]}.reverse
   end
@@ -57,14 +59,16 @@ class App < Sinatra::Base
     results = []
     sports.each do |sport|
       sport_tips = get_tips_by_sport(sport)
-      puts "sport: #{sport} / #{sport_tips.inspect}"
-      percent = sport_tips.select{|x| x.successful}.count * 100 / sport_tips.reject{|x| x.successful == nil}.count rescue -1
-      results << {
-        sport: sport,
-        successes: sport_tips.select{|x| x.successful}.count,
-        total: sport_tips.reject{|x| x.successful == nil}.count,
-        percent: percent
-      }
+      unless sport_tips == 0
+        puts "sport: #{sport} / #{sport_tips.inspect}"
+        percent = sport_tips.select{|x| x.successful}.count * 100 / sport_tips.reject{|x| x.successful == nil}.count rescue -1
+        results << {
+          sport: sport,
+          successes: sport_tips.select{|x| x.successful}.count,
+          total: sport_tips.reject{|x| x.successful == nil}.count,
+          percent: percent
+        }
+      end
     end
     results.sort_by{|x| x[:percent]}.reverse
   end
