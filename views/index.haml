@@ -58,7 +58,7 @@
           %a{href:"/sports/#{tip.sport}"}=tip.sport
         %td=tip.description
         %td.numeric=sprintf('$%.2f', tip.odds.to_f)
-        %td=tip.matchtime.strftime("%d %b, %H:%M")
+        %td=tip.matchtime.strftime("%a %d, %H:%M")
         -if tip.successful == nil
           %td
             %a{href:"/tip/#{tip.id}/success"}
