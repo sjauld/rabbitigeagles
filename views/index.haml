@@ -41,12 +41,11 @@
       %th{scope: :col} Sport
       %th{scope: :col} Match
       %th.numeric{scope: :col} Odds
-      %th.numeric{scope: :col} Time
+      %th{scope: :col} Time
       %th{scope: :col} Successful?
       %th{scope: :col} Modify
   %tbody
     -@tips.compact.each do |tip|
-      -seconds_to_match = tip.matchtime - Time.now rescue 2397600
       -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
       %tr{class: row_class}
         %th{scope: :row}
@@ -59,7 +58,7 @@
           %a{href:"/sports/#{tip.sport}"}=tip.sport
         %td=tip.description
         %td.numeric=sprintf('$%.2f', tip.odds.to_f)
-        %td.numeric=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
+        %td=tip.matchtime.strftime("%d %b, %H:%M")
         -if tip.successful == nil
           %td
             %a{href:"/tip/#{tip.id}/success"}

@@ -10,7 +10,6 @@ require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 
-
 class App < Sinatra::Base
 
 
