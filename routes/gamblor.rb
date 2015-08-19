@@ -151,8 +151,11 @@ class App < Sinatra::Base
     }
   end
 
+  # Calculates the total payout based on betting 3x, 4x, 5x and 6x combos
+  # @param [Array,Tip] tips an array of tips to feed in
+  #
+  # Return [Float] the total payout
   def calculate_payout(tips)
-    # we use all 6x, 5x, 4x and 3x combinations
     total = 0
     (3..6).each do |i|
       total += tips.map{|x| x.odds.to_f}.combination(i).to_a.map{|x| x.reduce(:*)}.reduce(:+).to_f
