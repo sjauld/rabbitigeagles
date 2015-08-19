@@ -12,7 +12,6 @@
   %h1 This tip does not exist
 -else
   %h1 Individual Tip Details
-  -seconds_to_match = @tip.matchtime - Time.now rescue 2397600
   %table.table
     %thead
       %tr
@@ -35,7 +34,7 @@
         %td=@tip.description
       %tr
         %th{scope: :row} Event time
-        %td=(seconds_to_match < 0 ? 'Complete' : sprintf('%.0f hours', seconds_to_match / 3600))
+        %td=tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
       %tr
         %th{scope: :row} Odds
         %td=sprintf('$%.2f', @tip.odds.to_f)
