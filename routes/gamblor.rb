@@ -84,7 +84,7 @@ class App < Sinatra::Base
   post '/secure/add-tip' do
     nice_params = escape_html_for_set(params)
     result = Tip.create(nice_params)
-    if (/\smanly\s/i =~ params['description']).nil?
+    if (/manly/i =~ params['description']).nil?
       pre = 'Don\'t forget to get your tips in'
     else
       pre = 'GO MANLY'
