@@ -25,7 +25,7 @@
           .input-group.date#eventTime
             %span.input-group-addon{for: 'matchtime'}
               %i.fa.fa-calendar
-            %input.form-control.input-md{type: 'datetime', name: 'matchtime', required: true}
+            %input.form-control.input-md{type: 'datetime', name: 'matchtime', required: true, value:@tip.matchtime}
       .form-group
         %label.col-md-2.control-label{for: 'tippingweek'} Tipping Week
         .col.col-md-10
