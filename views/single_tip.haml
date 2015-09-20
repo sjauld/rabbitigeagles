@@ -34,7 +34,7 @@
         %td=@tip.description
       %tr
         %th{scope: :row} Event time
-        %td=tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
+        %td=@tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
       %tr
         %th{scope: :row} Odds
         %td=sprintf('$%.2f', @tip.odds.to_f)
