@@ -38,6 +38,7 @@ class App < Sinatra::Base
 
 end
 
+require './extensions/google_oauth2'
 require './config/environments'
 require './routes/init'
 require './helpers/init'
