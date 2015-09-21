@@ -76,7 +76,23 @@ class App < Sinatra::Base
     redirect '/', notice: "Tip undeleted! <a href='/tip/#{params[:id]}/delete'>(undo)</a>"
   end
 
-  # Add new tips
+  get '/tip/add' do
+    haml :add_tip
+  end
+
+  post '/tip/add' do
+    nice_params = escape_html_for_set(params)
+    result = Tip.create(nice_params)
+    if (/manly/i =~ params['description']).nil?
+      pre = 'Don\'t forget to get your tips in'
+    else
+      pre = 'GO MANLY'
+    end
+    email_the_bastards("Week #{current_week}: #{nice_params['user']} has tipped #{nice_params['description']}",pre)
+    redirect '/', notice: "Tip added successfully!"
+  end
+
+  # Add new tips - old security section
   get '/secure/add-tip' do
     haml :add_tip
   end
