@@ -4,7 +4,7 @@ class App < Sinatra::Base
   end
 
   # Routes requiring auth
-  before '/tips/*' do
+  before '/tip/*' do
     authorize
   end
 
@@ -12,6 +12,11 @@ class App < Sinatra::Base
   get '/401' do
     status 401
     haml :_401
+  end
+
+  not_found do
+    status 404
+    haml :_404
   end
 
   # login section
