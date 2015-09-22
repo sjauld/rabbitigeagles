@@ -58,7 +58,7 @@
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = username
+                = session['email']
                 %b.caret
               %ul.dropdown-menu
                 %li

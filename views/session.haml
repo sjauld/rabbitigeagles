@@ -1,0 +1,9 @@
+.row
+  .col-md-3
+    %strong Key
+  .col-md-9
+    %strong Value
+  -session.each do |k,v|
+    .col-md-3
+      %strong=k
+    .col-md-9=v

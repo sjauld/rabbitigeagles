@@ -1,7 +1,4 @@
 class App < Sinatra::Base
-  configure do
-    enable :sessions
-  end
 
   # Routes requiring auth
   before '/tip/*' do
@@ -40,6 +37,11 @@ class App < Sinatra::Base
     puts session.inspect
     # do whatever you want with the information!
     redirect to('/')
+  end
+
+  get '/session' do
+    puts session.inspect
+    haml :session
   end
 
   get '/logout' do

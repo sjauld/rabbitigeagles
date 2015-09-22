@@ -24,7 +24,6 @@ class App < Sinatra::Base
     register Sinatra::AssetPipeline
 
     # sinatra-flash
-    enable :sessions
     register Sinatra::Flash
     helpers Sinatra::RedirectWithFlash
 
