@@ -1,5 +1,10 @@
 class App < Sinatra::Base
 
+  # Start by building the user
+  before '/*' do
+    build_user
+  end
+
   # Routes requiring auth
   before '/tip/*' do
     authorize
@@ -35,7 +40,8 @@ class App < Sinatra::Base
     end
     session['id'] = auth_hash['uid']
     puts session.inspect
-    # do whatever you want with the information!
+    # add this user to the DB if they don't already exist
+    flash[:notice] = "Login successful"
     redirect to('/')
   end
 
@@ -55,10 +61,10 @@ class App < Sinatra::Base
   end
 
 
-  helpers do
-    def username
-      session["email"] ? session["email"] : 'Hello stranger'
-    end
-  end
+  # helpers do
+  #   def username
+  #     session["email"] ? session["email"] : 'Hello stranger'
+  #   end
+  # end
 
 end
