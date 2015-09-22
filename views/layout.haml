@@ -50,7 +50,7 @@
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
             %li
-              %a{href: "/secure/add-tip"} Add Tip
+              %a{href: "/tip/add"} Add Tip
             %li
               %a{href: '/users/'} User Stats
             %li
@@ -58,11 +58,11 @@
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = username
+                = session['email']
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  %a{:href => "/login/form"} Login
+                  %a{:href => "/login"} Login
                 %li.divider
                 %li
                   %a{:href => "/logout"} Logout

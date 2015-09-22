@@ -24,7 +24,6 @@ class App < Sinatra::Base
     register Sinatra::AssetPipeline
 
     # sinatra-flash
-    enable :sessions
     register Sinatra::Flash
     helpers Sinatra::RedirectWithFlash
 
@@ -38,6 +37,7 @@ class App < Sinatra::Base
 
 end
 
+require './extensions/google_oauth2'
 require './config/environments'
 require './routes/init'
 require './helpers/init'

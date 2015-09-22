@@ -2,6 +2,7 @@ ruby '2.2.1'
 source 'https://rubygems.org' do
 
   group :core do
+    gem 'omniauth-google-oauth2'
     gem 'sinatra'
     gem 'haml'
     gem 'activerecord'
