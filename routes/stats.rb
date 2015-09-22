@@ -25,15 +25,15 @@ class App < Sinatra::Base
   private
   #######
   def select_all_users
-    Tip.uniq.pluck(:user)
+    Tip.uniq.pluck(:old_username)
   end
 
   def select_all_sports
     Tip.uniq.pluck(:sport)
   end
 
-  def get_tips_by_user(user)
-    Tip.where(user: user).reject{|x| x.deleted}
+  def get_tips_by_user(old_username)
+    Tip.where(old_username: old_username).reject{|x| x.deleted}
   end
 
   def get_tips_by_sport(sport)
@@ -42,12 +42,12 @@ class App < Sinatra::Base
 
   def get_user_stats(users)
     results = []
-    users.each do |user|
-      user_tips = get_tips_by_user(user)
+    users.each do |old_username|
+      user_tips = get_tips_by_user(old_username)
       unless user_tips.count == 0
         percent = user_tips.select{|x| x.successful}.count * 100 / user_tips.reject{|x| x.successful == nil}.count rescue -1
         results << {
-          user: user,
+          old_username: old_username,
           successes: user_tips.select{|x| x.successful}.count,
           total: user_tips.reject{|x| x.successful == nil}.count,
           percent: percent

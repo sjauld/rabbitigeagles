@@ -43,4 +43,9 @@ require './routes/init'
 require './helpers/init'
 
 class Tip < ActiveRecord::Base
+  belongs_to :user
+end
+
+class User < ActiveRecord::Base
+  has_many :tips
 end

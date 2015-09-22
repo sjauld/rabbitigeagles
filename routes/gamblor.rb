@@ -16,13 +16,14 @@ class App < Sinatra::Base
 
   post '/tip/add' do
     nice_params = escape_html_for_set(params)
+    puts nice_params.inspect
     result = Tip.create(nice_params)
     if (/manly/i =~ params['description']).nil?
       pre = 'Don\'t forget to get your tips in'
     else
       pre = 'GO MANLY'
     end
-    email_the_bastards("Week #{current_week}: #{nice_params['user']} has tipped #{nice_params['description']}",pre)
+    email_the_bastards("Week #{current_week}: #{nice_params['old_username']} has tipped #{nice_params['description']}",pre)
     redirect '/', notice: "Tip added successfully!"
   end
 

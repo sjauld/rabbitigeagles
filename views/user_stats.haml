@@ -11,5 +11,5 @@
       -@stats.each do |user|
         %tr
           %th{scope: :row}
-            %a{href: "/users/#{user[:user]}"}=user[:user]
+            %a{href: "/users/#{user[:old_username]}"}=user[:old_username]
           %td.numeric="#{user[:successes]}/#{user[:total]} (#{(user[:successes].to_f/user[:total].to_f * 100).to_i rescue 'N/A'}%)"
