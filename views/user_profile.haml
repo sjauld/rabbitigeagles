@@ -1,0 +1,87 @@
+%h1
+  %img{src: @this_user.image}
+  =@this_user.name
+.row
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-user
+          %span.text User Profile
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %tbody
+              %tr
+                %th{scope: :row} Display Name
+                %td=@this_user.first_name
+              %tr
+                %th{scope: :row} Email
+                %td=@this_user.email
+              %tr
+                %th{scope: :row} Record
+                %td="#{@stats[:successes]}/#{@stats[:total]} (#{@stats[:percent]}%)"
+  .col-md-8
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-futbol-o
+          %span.text Tip History
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover.tablesorter
+            %thead
+              %tr
+                %th.centered{scope: :col} Link
+                %th.numeric{scope: :col} Week
+                %th.centered{scope: :col} Tipper
+                %th{scope: :col} Sport
+                %th{scope: :col} Match
+                %th.numeric{scope: :col} Odds
+                %th{scope: :col} Time
+                %th.centered{scope: :col} Successful?
+                %th.centered{scope: :col} Modify
+            %tbody
+              -if @tips.empty?
+                %tr
+                  %td{scope: :row, colspan: 9} You have no tips yet
+              -else
+                -@tips.compact.each do |tip|
+                  -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
+                  %tr{class: row_class}
+                    %th.centered{scope: :row}
+                      %a{href: "/tip/#{tip.id}"}
+                        %i.fa.fa-money
+                    %td.centered=tip.tippingweek
+                    %td.centered
+                      %a{href:"/users/#{tip.old_username}"}=tip.old_username
+                    %td
+                      %a{href:"/sports/#{tip.sport}"}=tip.sport
+                    %td=tip.description
+                    %td.numeric=sprintf('$%.2f', tip.odds.to_f)
+                    %td=tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
+                    -if tip.successful == nil
+                      %td.centered
+                        %a{href:"/tip/#{tip.id}/success"}
+                          %i.fa.fa-thumbs-up
+                        |
+                        %a{href:"/tip/#{tip.id}/smashed"}
+                          %i.fa.fa-thumbs-down
+                    -else
+                      %td.centered=tip.successful ? 'Win' : 'Lose'
+                    -if tip.deleted?
+                      %td.centered
+                        %i.fa.fa-bomb
+                    -elsif tip.locked?
+                      %td.centered
+                        %i.fa.fa-lock
+                    -else
+                      %td.centered
+                        %a{href:"/tip/#{tip.id}/lock"}
+                          %i.fa.fa-lock
+
+                        %a{href:"/tip/#{tip.id}/edit"}
+                          %i.fa.fa-wrench
+
+                        %a{href:"/tip/#{tip.id}/delete"}
+                          %i.fa.fa-bomb
