@@ -18,9 +18,10 @@
               %tr
                 %th{scope: :row} Email
                 %td=@this_user.email
-              %tr
-                %th{scope: :row} Record
-                %td="#{@stats[:successes]}/#{@stats[:total]} (#{@stats[:percent]}%)"
+              -unless @stats.nil?
+                %tr
+                  %th{scope: :row} Record
+                  %td="#{@stats[:successes]}/#{@stats[:total]} (#{@stats[:percent]}%)"
   .col-md-8
     .panel.panel-default
       .panel-heading
