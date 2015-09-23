@@ -63,7 +63,10 @@
                       -if tip.user_id.nil?
                         %a{href:"/users/#{tip.old_username}"}=tip.old_username
                       -else
-                        %a{href:"/user/#{tip.user_id}"}=tip.old_username
+                        %a{href:"/user/#{tip.user_id}"}
+                          %img{src: tip.user.image,alt: tip.user.first_name, title: tip.user.first_name}
+                          %br
+                          =tip.user.first_name
                     %td
                       %a{href:"/sports/#{tip.sport}"}=tip.sport
                     %td=tip.description
