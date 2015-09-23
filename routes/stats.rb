@@ -9,6 +9,13 @@ class App < Sinatra::Base
     haml :sport_stats
   end
 
+  get '/user/:user' do
+    @this_user = User.where(id: params[:user]).first
+    @tips = get_tips_by_user(@this_user.first_name)
+    @stats = get_user_stats([@this_user.first_name]).first
+    haml :user_profile
+  end
+
   get '/users/:user' do
     @view = params[:user]
     @tips = get_tips_by_user(@view)

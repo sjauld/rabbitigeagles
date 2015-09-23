@@ -17,7 +17,7 @@ class App < Sinatra::Base
   post '/tip/add' do
     nice_params = escape_html_for_set(params)
     puts nice_params.inspect
-    result = Tip.create(nice_params)
+    result = @user.tips.create(nice_params)
     if (/manly/i =~ params['description']).nil?
       pre = 'Don\'t forget to get your tips in'
     else
