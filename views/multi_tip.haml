@@ -1,56 +1,64 @@
--if @tips.empty?
-  %h1="There are no tips yet for #{@view}"
--else
-  %h1="Tip Detail - #{@view}"
-%table.table.tablesorter
-  %thead
-    %tr
-      %th{scope: :col} Link
-      %th.numeric{scope: :col} Week
-      %th{scope: :col} Tipper
-      %th{scope: :col} Sport
-      %th{scope: :col} Match
-      %th.numeric{scope: :col} Odds
-      %th.numeric{scope: :col} Time
-      %th{scope: :col} Successful?
-      %th{scope: :col} Modify
-  %tbody
-    -@tips.compact.each do |tip|
-      -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
-      %tr{class: row_class}
-        %th{scope: :row}
-          %a{href: "/tip/#{tip.id}"}
-            %i.fa.fa-money
-        %td.numeric=tip.tippingweek
-        %td
-          %a{href:"/users/#{tip.old_username}"}=tip.old_username
-        %td
-          %a{href:"/sports/#{tip.sport}"}=tip.sport
-        %td=tip.description
-        %td.numeric=sprintf('$%.2f', tip.odds.to_f)
-        %td=tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
-        -if tip.successful == nil
-          %td
-            %a{href:"/tip/#{tip.id}/success"}
-              %i.fa.fa-thumbs-up
-            |
-            %a{href:"/tip/#{tip.id}/smashed"}
-              %i.fa.fa-thumbs-down
-        -else
-          %td=tip.successful ? 'Win' : 'Lose'
-        -if tip.deleted?
-          %td
-            %i.fa.fa-bomb
-        -elsif tip.locked?
-          %td
-            %i.fa.fa-lock
-        -else
-          %td
-            %a{href:"/tip/#{tip.id}/lock"}
-              %i.fa.fa-lock
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-futbol-o
+          %span.text="Tip Details - #{@view}"
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %thead
+              %tr
+                %th.centered{scope: :col} Link
+                %th.centered{scope: :col} Week
+                %th.centered{scope: :col} Tipper
+                %th{scope: :col} Sport
+                %th{scope: :col} Match
+                %th.numeric{scope: :col} Odds
+                %th{scope: :col} Time
+                %th.centered{scope: :col} Successful?
+                %th.centered{scope: :col} Modify
+            %tbody
+              -if @tips.empty?
+                %tr{colspan: 9}="There are no tips yet for #{@view}"
+              -else
+                -@tips.compact.each do |tip|
+                  -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
+                  %tr{class: row_class}
+                    %th.centered{scope: :row}
+                      %a{href: "/tip/#{tip.id}"}
+                        %i.fa.fa-money
+                    %td.centered=tip.tippingweek
+                    %td.centered
+                      %a{href:"/users/#{tip.old_username}"}=tip.old_username
+                    %td
+                      %a{href:"/sports/#{tip.sport}"}=tip.sport
+                    %td=tip.description
+                    %td.numeric=sprintf('$%.2f', tip.odds.to_f)
+                    %td=tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
+                    -if tip.successful == nil
+                      %td.centered
+                        %a{href:"/tip/#{tip.id}/success"}
+                          %i.fa.fa-thumbs-up
+                        |
+                        %a{href:"/tip/#{tip.id}/smashed"}
+                          %i.fa.fa-thumbs-down
+                    -else
+                      %td.centered=tip.successful ? 'Win' : 'Lose'
+                    -if tip.deleted?
+                      %td.centered
+                        %i.fa.fa-bomb
+                    -elsif tip.locked?
+                      %td.centered
+                        %i.fa.fa-lock
+                    -else
+                      %td.centered
+                        %a{href:"/tip/#{tip.id}/lock"}
+                          %i.fa.fa-lock
 
-            %a{href:"/tip/#{tip.id}/edit"}
-              %i.fa.fa-wrench
+                        %a{href:"/tip/#{tip.id}/edit"}
+                          %i.fa.fa-wrench
 
-            %a{href:"/tip/#{tip.id}/delete"}
-              %i.fa.fa-bomb
+                        %a{href:"/tip/#{tip.id}/delete"}
+                          %i.fa.fa-bomb

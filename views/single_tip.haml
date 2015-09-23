@@ -1,59 +1,68 @@
-%ul.breadcrumb
-  -unless params[:id].to_i < 2
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-dollar
+          %span.text Tip Details
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %tbody
+              -if @tip.nil?
+                %tr This tip does not exist
+              -else
+                %tr
+                  %th{scope: :row} Id
+                  %td=@tip.id
+                %tr
+                  %th{scope: :row} Username
+                  %td
+                    %a{href:"/users/#{@tip.old_username}"}=@tip.old_username
+                %tr
+                  %th{scope: :row} User ID
+                  %td
+                    %a{href:"/user/#{@tip.user_id}"}=@tip.user_id
+                %tr
+                  %th{scope: :row} Sport
+                  %td
+                    %a{href:"/sports/#{@tip.sport}"}=@tip.sport
+                %tr
+                  %th{scope: :row} Tip
+                  %td=@tip.description
+                %tr
+                  %th{scope: :row} Event time
+                  %td=@tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
+                %tr
+                  %th{scope: :row} Odds
+                  %td=sprintf('$%.2f', @tip.odds.to_f)
+                %tr
+                  %th{scope: :row} Tipping Week
+                  %td
+                    %a{href: "/?week=#{@tip.tippingweek}"}=@tip.tippingweek
+                %tr
+                  %th{scope: :row} Successful
+                  %td=@tip.successful
+                %tr
+                  %th{scope: :row} Locked
+                  %td=@tip.locked
+                %tr
+                  %th{scope: :row} Deleted
+                  %td=@tip.deleted
+                %tr
+                  %th{scope: :row} Created at
+                  %td=@tip.created_at
+                %tr
+                  %th{scope: :row} Updated at
+                  %td=@tip.updated_at
+%nav.navbar.navbar-default{role: 'pagination'}
+  %ul.breadcrumb
+    -unless params[:id].to_i < 2
+      %li
+        %a{href: "/tip/#{params[:id].to_i - 1}"}
+          %i.fa.fa-long-arrow-left
     %li
-      %a{href: "/tip/#{params[:id].to_i - 1}"}
-        %i.fa.fa-long-arrow-left
-  %li
-    %span="Tip #{params[:id]}"
-  %li
-    %a{href: "/tip/#{params[:id].to_i + 1}"}
-      %i.fa.fa-long-arrow-right
--if @tip.nil?
-  %h1 This tip does not exist
--else
-  %h1 Individual Tip Details
-  %table.table
-    %thead
-      %tr
-        %th{scope: :col} Key
-        %th{scope: :col} Value
-    %tbody
-      %tr
-        %th{scope: :row} Id
-        %td=@tip.id
-      %tr
-        %th{scope: :row} User
-        %td
-          %a{href:"/users/#{@tip.old_username}"}=@tip.old_username
-      %tr
-        %th{scope: :row} Sport
-        %td
-          %a{href:"/sports/#{@tip.sport}"}=@tip.sport
-      %tr
-        %th{scope: :row} Tip
-        %td=@tip.description
-      %tr
-        %th{scope: :row} Event time
-        %td=@tip.matchtime.strftime("%a %d, %H:%M") rescue "Unknown"
-      %tr
-        %th{scope: :row} Odds
-        %td=sprintf('$%.2f', @tip.odds.to_f)
-      %tr
-        %th{scope: :row} Tipping Week
-        %td
-          %a{href: "/?week=#{@tip.tippingweek}"}=@tip.tippingweek
-      %tr
-        %th{scope: :row} Successful
-        %td=@tip.successful
-      %tr
-        %th{scope: :row} Locked
-        %td=@tip.locked
-      %tr
-        %th{scope: :row} Deleted
-        %td=@tip.deleted
-      %tr
-        %th{scope: :row} Created at
-        %td=@tip.created_at
-      %tr
-        %th{scope: :row} Updated at
-        %td=@tip.updated_at
+      %span="Tip #{params[:id]}"
+    %li
+      %a{href: "/tip/#{params[:id].to_i + 1}"}
+        %i.fa.fa-long-arrow-right

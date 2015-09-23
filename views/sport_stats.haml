@@ -1,15 +1,20 @@
--if @stats.nil?
-  %h1 No sports Found :(
--else
-  %h1 Sport Stats!
-  %table.table
-    %thead
-      %tr
-        %th{scope: :col} Sport
-        %th.numeric{scope: :col} Stats
-    %tbody
-      -@stats.each do |sport|
-        %tr
-          %th{scope: :row}
-            %a{href: "/sports/#{sport[:sport]}"}=sport[:sport]
-          %td.numeric="#{sport[:successes]}/#{sport[:total]} (#{(sport[:successes].to_f/sport[:total].to_f * 100).to_i rescue 'N/A'}%)"
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-futbol-o
+          %span.text Sports Stats
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            -if @stats.nil?
+              %tr
+                %td No sports Found :(
+            -else
+              %tbody
+                -@stats.each do |sport|
+                  %tr
+                    %th{scope: :row}
+                      %a{href: "/sports/#{sport[:sport]}"}=sport[:sport]
+                    %td.numeric="#{sport[:successes]}/#{sport[:total]} (#{(sport[:successes].to_f/sport[:total].to_f * 100).to_i rescue 'N/A'}%)"
