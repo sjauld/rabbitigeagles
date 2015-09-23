@@ -4,16 +4,14 @@
     .panel-heading="Week #{@tip.tippingweek}"
     .panel-body
       .form-group
-        %label.col-md-2.control-label{for: 'old_username'} Tipper
-        .col.col-md-10
-          %input.form-control.input-md{type: 'text', placeholder: 'Insert tipper name', name: 'old_username', required: true, value: @tip.old_username}
-      .form-group
         %label.col-md-2.control-label{for: 'user_id'} User
         .col.col-md-10
           %select.form-control{ name: 'user_id'}
-            -@all_users.each do |user|
-              %option{value: user.id}=user.name
-            %option{value: nil} Some other user
+            %optgroup{label: 'You'}
+              %option{value: @user.id}=@user.name
+            %optgroup{label: 'Other Registered Users'}
+              -@all_users.each do |user|
+                %option{value: user.id}=user.name
       .form-group
         %label.col-md-2.control-label{for: 'sport'} Sport
         .col.col-md-10

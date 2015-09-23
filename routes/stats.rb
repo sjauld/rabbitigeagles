@@ -1,6 +1,6 @@
 class App < Sinatra::Base
   get '/users/' do
-    @stats = get_user_stats(select_all_users)
+    @stats = get_user_stats(User.all)
     haml :user_stats
   end
 
@@ -9,17 +9,26 @@ class App < Sinatra::Base
     haml :sport_stats
   end
 
-  get '/user/:user' do
-    @this_user = User.where(id: params[:user]).first
-    @tips = get_tips_by_user(@this_user.first_name)
-    @stats = get_user_stats([@this_user.first_name]).first
-    haml :user_profile
+  get '/user/:user/delete-user' do
+    if @user.email == 'stu@thelyricalmadmen.com'
+      @deleted_user = User.where(id: params[:user]).first
+      @deleted_user.delete
+      flash[:notice] = "User #{@deleted_user.name} deleted!"
+    else
+      flash[:error] = "Sorry, you are not authorised to do that"
+    end
+    redirect to('/')
   end
 
-  get '/users/:user' do
-    @view = params[:user]
-    @tips = get_tips_by_user(@view)
-    haml :multi_tip
+  get '/user/:user' do
+    @this_user = User.where(id: params[:user]).first
+    if @this_user.nil?
+      flash[:error] = "User #{params[:user]} does not exist"
+      redirect to ('/')
+    end
+    @tips = @this_user.tips
+    @stats = get_user_stats([@this_user]).first
+    haml :user_profile
   end
 
   get '/sports/:sport' do
@@ -31,16 +40,9 @@ class App < Sinatra::Base
   #######
   private
   #######
-  def select_all_users
-    Tip.uniq.pluck(:old_username)
-  end
 
   def select_all_sports
     Tip.uniq.pluck(:sport)
-  end
-
-  def get_tips_by_user(old_username)
-    Tip.where(old_username: old_username).reject{|x| x.deleted}
   end
 
   def get_tips_by_sport(sport)
@@ -49,12 +51,12 @@ class App < Sinatra::Base
 
   def get_user_stats(users)
     results = []
-    users.each do |old_username|
-      user_tips = get_tips_by_user(old_username)
+    users.each do |user|
+      user_tips = user.tips.reject{|x| x.deleted}
       unless user_tips.count == 0
         percent = user_tips.select{|x| x.successful}.count * 100 / user_tips.reject{|x| x.successful == nil}.count rescue -1
         results << {
-          old_username: old_username,
+          user: user,
           successes: user_tips.select{|x| x.successful}.count,
           total: user_tips.reject{|x| x.successful == nil}.count,
           percent: percent
