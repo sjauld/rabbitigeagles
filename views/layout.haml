@@ -57,15 +57,16 @@
               %a{href: '/sports/'} Sport Stats
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
                 = session['email'] || "Hello stranger"
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  %a{:href => "/login"} Login
-                %li.divider
+                  %a{href: "/user/#{@user.id}"} Profile
                 %li
-                  %a{:href => "/logout"} Logout
+                  %a{href: "/login"} Login
+                %li
+                  %a{href: "/logout"} Logout
         / /.nav-collapse
       %div
         - if flash[:error] then
