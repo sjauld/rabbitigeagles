@@ -61,13 +61,14 @@
                 = session['email'] || "Hello stranger"
                 %b.caret
               %ul.dropdown-menu
-                -unless @user.nil?
+                -if !@user.nil?
                   %li
                     %a{href: "/user/#{@user.id}"} Profile
-                %li
-                  %a{href: "/login"} Login
-                %li
-                  %a{href: "/logout"} Logout
+                  %li
+                    %a{href: "/logout"} Logout
+                -else
+                  %li
+                    %a{href: "/login"} Login
         / /.nav-collapse
       %div
         - if flash[:error] then

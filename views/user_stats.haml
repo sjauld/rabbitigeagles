@@ -12,8 +12,8 @@
               %tr
                 %td No users found
             -else
-              -@stats.each do |user|
+              -@stats.each do |row|
                 %tr
                   %th{scope: :row}
-                    %a{href: "/users/#{user[:old_username]}"}=user[:old_username]
-                  %td.numeric="#{user[:successes]}/#{user[:total]} (#{(user[:successes].to_f/user[:total].to_f * 100).to_i rescue 'N/A'}%)"
+                    %a{href: "/user/#{row[:user].id}"}=row[:user].first_name
+                  %td.numeric="#{row[:successes]}/#{row[:total]} (#{(row[:successes].to_f/row[:total].to_f * 100).to_i rescue 'N/A'}%)"

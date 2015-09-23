@@ -16,7 +16,7 @@ module Gambling
     if tips.count == 0
       return 'Noone has entered their tips yet. This makes Steve Menzies sad.'
     else
-      return tips.map{|x| "#{x.old_username}: #{x.description}"}.join("\n")
+      return tips.map{|x| "#{x.user.nil? ? x.old_username : x.user.name}: #{x.description}"}.join("\n")
     end
   end
 
