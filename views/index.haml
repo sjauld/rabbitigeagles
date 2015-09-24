@@ -54,7 +54,7 @@
               -else
                 -@tips.compact.each do |tip|
                   -row_class = tip.successful ? 'success' : tip.successful.nil? ? 'default' : 'danger'
-                  %tr
+                  %tr{class: row_class}
                     %th.centered{scope: :row}
                       %a{href: "/tip/#{tip.id}"}
                         %i.fa.fa-money
