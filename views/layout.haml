@@ -58,7 +58,7 @@
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-                = session['email'] || "Hello stranger"
+                = @user.email rescue "Hello stranger"
                 %b.caret
               %ul.dropdown-menu
                 -if !@user.nil?

@@ -40,7 +40,6 @@ class App < Sinatra::Base
     end
     session['id'] = auth_hash['uid']
     puts session.inspect
-    # add this user to the DB if they don't already exist
     flash[:notice] = "Login successful"
     redirect to('/')
   end

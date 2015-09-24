@@ -20,6 +20,16 @@ class App < Sinatra::Base
     redirect to('/')
   end
 
+  get '/user/battleadd' do
+    haml :add_user
+  end
+
+  post '/user/battleadd' do
+    nice_params = escape_html_for_set(params)
+    result = User.create(nice_params)
+    redirect '/', notice: 'User created successfully!'
+  end
+
   get '/user/:user' do
     @this_user = User.where(id: params[:user]).first
     if @this_user.nil?
