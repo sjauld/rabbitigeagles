@@ -8,6 +8,12 @@
       .table-responsive
         .table.table-hover
           %table.table.table-hover
+            %thead
+              %tr
+                %th{scope: :col} User
+                %th{scope: :col} Streak
+                %th.numeric{scope: :col} Wins
+                %th.numeric{scope: :col} %
             -if @stats.nil?
               %tr
                 %td No users found
@@ -16,4 +22,11 @@
                 %tr
                   %th{scope: :row}
                     %a{href: "/user/#{row[:user].id}"}=row[:user].first_name
-                  %td.numeric="#{row[:successes]}/#{row[:total]} (#{(row[:successes].to_f/row[:total].to_f * 100).to_i rescue 'N/A'}%)"
+                  %td
+                    -(streak(row[:user])[:count]).times do
+                      -if streak(row[:user])[:successful]
+                        %i.fa.fa-thumbs-up.text-success
+                      -else
+                        %i.fa.fa-thumbs-down.text-danger
+                  %td.numeric=row[:successes]
+                  %td.numeric="#{(row[:successes].to_f/row[:total].to_f * 100).to_i rescue 'N/A'}%"

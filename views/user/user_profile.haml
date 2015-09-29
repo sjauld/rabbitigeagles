@@ -22,6 +22,14 @@
                 %tr
                   %th{scope: :row} Record
                   %td="#{@stats[:successes]}/#{@stats[:total]} (#{@stats[:percent]}%)"
+                %tr
+                  %th{scope: :row} Streak
+                  %td
+                    -(streak(@this_user)[:count]).times do
+                      -if streak(@this_user)[:successful]
+                        %i.fa.fa-thumbs-up.text-success
+                      -else
+                        %i.fa.fa-thumbs-down.text-danger
     -if @this_user == @user
       %a{href: '/user/edit'}
         %button.button-default Edit my profile
