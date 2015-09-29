@@ -17,3 +17,12 @@ task 'thursday-update' do
     puts "It's not Thursday, sunshine"
   end
 end
+
+# Rake console is fun!
+task :console do
+  require 'irb'
+  require 'irb/completion'
+  require './app' # You know what to do.
+  ARGV.clear
+  IRB.start
+end
