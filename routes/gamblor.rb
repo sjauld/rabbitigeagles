@@ -59,7 +59,6 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id/edit' do
-    @all_users = User.all
     @tip = get_tip(params[:id])
     if @tip.locked
       redirect "/tip/#{params[:id]}", error: 'Unable to edit tip - it is locked'

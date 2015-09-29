@@ -9,38 +9,6 @@ class App < Sinatra::Base
     haml :sport_stats
   end
 
-  get '/user/:user/delete-user' do
-    if @user.email == 'stu@thelyricalmadmen.com'
-      @deleted_user = User.where(id: params[:user]).first
-      @deleted_user.delete
-      flash[:notice] = "User #{@deleted_user.name} deleted!"
-    else
-      flash[:error] = "Sorry, you are not authorised to do that"
-    end
-    redirect to('/')
-  end
-
-  get '/user/battleadd' do
-    haml :add_user
-  end
-
-  post '/user/battleadd' do
-    nice_params = escape_html_for_set(params)
-    result = User.create(nice_params)
-    redirect '/', notice: 'User created successfully!'
-  end
-
-  get '/user/:user' do
-    @this_user = User.where(id: params[:user]).first
-    if @this_user.nil?
-      flash[:error] = "User #{params[:user]} does not exist"
-      redirect to ('/')
-    end
-    @tips = @this_user.tips
-    @stats = get_user_stats([@this_user]).first
-    haml :user_profile
-  end
-
   get '/sports/:sport' do
     @view = params[:sport]
     @tips = get_tips_by_sport(@view)

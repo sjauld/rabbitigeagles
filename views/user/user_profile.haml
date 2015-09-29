@@ -22,6 +22,9 @@
                 %tr
                   %th{scope: :row} Record
                   %td="#{@stats[:successes]}/#{@stats[:total]} (#{@stats[:percent]}%)"
+    -if @this_user == @user
+      %a{href: '/user/edit'}
+        %button.button-default Edit my profile
   .col-md-8
     .panel.panel-default
       .panel-heading

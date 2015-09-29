@@ -31,4 +31,9 @@ module Gambling
     end
     message.deliver
   end
+
+  def all_users
+    User.all
+  end
+
 end
