@@ -2,6 +2,15 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
+  # temporary route to assign users
+  get '/tip/:tip/reassign/:user' do
+    tip = Tip.where(id: params[:tip]).first
+    tip.user_id = params[:user]
+    tip.save
+    flash[:notice] = 'Tip successfully updated'
+    redirect to("/tip/#{params[:tip]}")
+  end
+
   get '/' do
     puts flash.inspect
     @week = params[:week] || current_week
