@@ -23,17 +23,20 @@ class App < Sinatra::Base
     @user.first_name  = params[:first_name]
     @user.last_name   = params[:last_name]
     @user.image       = params[:image]
-    @user.save 
+    @user.save
     flash[:notice] = 'User edited successfully'
     redirect to("/user/#{@user.id}")
   end
 
+  # Manually add users who can't operate a computer
   get '/user/battleadd' do
     haml :'user/add_user'
   end
 
   post '/user/battleadd' do
     nice_params = escape_html_for_set(params)
+    # Don't escape the image
+    nice_params[:image] = params[:image]
     result = User.create(nice_params)
     redirect '/', notice: 'User created successfully!'
   end
