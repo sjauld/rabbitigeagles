@@ -1,0 +1,29 @@
+%h1 Add battle-users here
+%form.form-horizontal{action: '#', method: 'post'}
+  .panel.panel-default
+    .panel-heading Detail
+    .panel-body
+      .form-group
+        %label.col-md-2.control-label{for: 'name'} Name
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'Maxwell Q. Klinger', name: 'name', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'email'} Email
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: '??', name: 'email', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'first_name'} First Name
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'John', name: 'first_name', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'last_name'} Last Name
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'Shehadie', name: 'last_name', required: true}
+      .form-group
+        %label.col-md-2.control-label{for: 'image'} Avatar
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: 'link to image here', name: 'image', required: true}
+      .form-group
+        .col-md-2
+        .col-md-10
+          %button.btn.btn-success{type: 'submit'} Submit Tip

@@ -44,9 +44,9 @@ class App < Sinatra::Base
     redirect to('/')
   end
 
-  get '/session' do
+  get '/session-inspector' do
     puts session.inspect
-    haml :session
+    haml :'dev/session'
   end
 
   get '/logout' do

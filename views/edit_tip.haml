@@ -10,7 +10,7 @@
             %optgroup{label: 'You'}
               %option{value: @user.id}=@user.name
             %optgroup{label: 'Other Registered Users'}
-              -@all_users.each do |user|
+              -all_users.each do |user|
                 %option{value: user.id}=user.name
       .form-group
         %label.col-md-2.control-label{for: 'sport'} Sport
