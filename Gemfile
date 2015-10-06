@@ -14,6 +14,7 @@ source 'https://rubygems.org' do
     gem 'dotenv'
     gem 'postmark'
     gem 'mail'
+    gem 'roman-numerals'
   end
 
   group :development do

@@ -102,7 +102,7 @@
         %a{href: "/?week=#{@week.to_i - 1}"}
           %i.fa.fa-long-arrow-left
     %li
-      %span="Week #{@week.to_i}"
+      %span="Week #{RomanNumerals.to_roman(@week.to_i)}"
     %li
       %a{href: "/?week=#{@week.to_i + 1}"}
         %i.fa.fa-long-arrow-right
