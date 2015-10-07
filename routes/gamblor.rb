@@ -2,34 +2,6 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
-  # temporary route to assign users
-  get '/tip/:tip/reassign/:user' do
-    tip = Tip.where(id: params[:tip]).first
-    tip.user_id = params[:user]
-    tip.save
-    flash[:notice] = 'Tip successfully updated'
-    redirect to("/tip/#{params[:tip]}")
-  end
-
-  # temporary route to upgrade the database to assign correct week IDs
-  # TODO: remove after application
-  get '/tip/database-migrate-v1' do
-    updates = []
-    tips = Tip.all.order(tippingweek: :asc)
-    tips.each do |t|
-      unless w = get_week_by_number(t.tippingweek)
-        w = Week.create(
-          tippingweek: t.tippingweek
-        )
-      end
-      t.week_id = w.id
-      t.save
-      updates << "#{t.description} - week #{w.id}"
-    end
-    updates
-  end
-
-
   get '/' do
     puts flash.inspect
     @week = get_week_by_number(params[:week]) || current_week
@@ -63,7 +35,7 @@ class App < Sinatra::Base
     else
       pre = 'GO MANLY'
     end
-    email_the_bastards("Week #{current_week}: #{this_user.first_name} has tipped #{nice_params['description']}",pre)
+    email_the_bastards("Week #{current_week.tippingweek}: #{this_user.first_name} has tipped #{nice_params['description']}",pre)
 
     # Redirect
     redirect '/', notice: "Tip added successfully!"
