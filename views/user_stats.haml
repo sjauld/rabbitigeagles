@@ -23,8 +23,8 @@
                   %th{scope: :row}
                     %a{href: "/user/#{row[:user].id}"}=row[:user].first_name
                   %td
-                    -(streak(row[:user])[:count]).times do
-                      -if streak(row[:user])[:successful]
+                    -row[:user].streak[:count].times do
+                      -if row[:user].streak[:successful]
                         %i.fa.fa-thumbs-up.text-success
                       -else
                         %i.fa.fa-thumbs-down.text-danger

@@ -40,15 +40,4 @@ module Gambling
     User.all
   end
 
-  def streak(user)
-    streak = {count: 0, successful: 'unknown'}
-    # TODO: remove the tippingweek reference
-    user.tips.where(deleted: false || nil, locked: true).order(tippingweek: :desc).each do |tip|
-      streak[:successful] = tip.successful if streak[:successful] == 'unknown'
-      break unless streak[:successful] == tip.successful
-      streak[:count] += 1
-    end
-    streak
-  end
-
 end
