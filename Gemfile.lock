@@ -84,6 +84,7 @@ GEM
       rack (>= 1.0)
       rack-test (~> 0.6.2)
       ripl (>= 0.7.0)
+    roman-numerals (0.3.0)
     sass (3.4.16)
     sinatra (1.4.6)
       rack (~> 1.4)
@@ -146,6 +147,7 @@ DEPENDENCIES
   rails-assets-bootstrap3-datetimepicker!
   rails-assets-jquery!
   rails-assets-moment!
+  roman-numerals!
   sinatra!
   sinatra-activerecord!
   sinatra-asset-pipeline!

@@ -64,7 +64,7 @@
                     %th.centered{scope: :row}
                       %a{href: "/tip/#{tip.id}"}
                         %i.fa.fa-money
-                    %td.centered=tip.tippingweek
+                    %td.centered=tip.week.tippingweek
                     %td.centered
                       -if tip.user_id.nil? #TODO: remove this when ready
                         =tip.old_username

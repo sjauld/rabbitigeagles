@@ -1,7 +1,7 @@
 %h1 Please add a tip!
 %form.form-horizontal{action: '#', method: 'post'}
   .panel.panel-default
-    .panel-heading="Tipping Form - Week #{current_tipping_week}"
+    .panel-heading="Tipping Form - Week #{current_tipping_week_number}"
     .panel-body
       .form-group
         %label.col-md-2.control-label{for: 'user_id'} User
@@ -31,7 +31,7 @@
             %span.input-group-addon{for: 'matchtime'}
               %i.fa.fa-calendar
             %input.form-control.input-md{type: 'datetime', placeholder: '2015-08-07 13:00+1000', name: 'matchtime', required: true}
-      %input.form-control.input-md{type: 'hidden', name:'tippingweek', value: current_tipping_week}
+      %input.form-control.input-md{type: 'hidden', name:'tippingweek', value: current_tipping_week_number}
       .form-group
         .col-md-2
         .col-md-10

@@ -44,8 +44,13 @@ require './helpers/init'
 
 class Tip < ActiveRecord::Base
   belongs_to :user
+  belongs_to :week
 end
 
 class User < ActiveRecord::Base
+  has_many :tips
+end
+
+class Week < ActiveRecord::Base
   has_many :tips
 end

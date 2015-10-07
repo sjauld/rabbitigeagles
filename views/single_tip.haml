@@ -42,7 +42,7 @@
                 %tr
                   %th{scope: :row} Tipping Week
                   %td
-                    %a{href: "/?week=#{@tip.tippingweek}"}=@tip.tippingweek
+                    %a{href: "/?week=#{@tip.week.tippingweek}"}=@tip.week.tippingweek
                 %tr
                   %th{scope: :row} Successful
                   %td=@tip.successful

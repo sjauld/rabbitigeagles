@@ -11,10 +11,29 @@ class App < Sinatra::Base
     redirect to("/tip/#{params[:tip]}")
   end
 
+  # temporary route to upgrade the database to assign correct week IDs
+  # TODO: remove after application
+  get '/tip/database-migrate-v1' do
+    updates = []
+    tips = Tip.all.order(tippingweek: :asc)
+    tips.each do |t|
+      unless w = get_week_by_number(t.tippingweek)
+        w = Week.create(
+          tippingweek: t.tippingweek
+        )
+      end
+      t.week_id = w.id
+      t.save
+      updates << "#{t.description} - week #{w.id}"
+    end
+    updates
+  end
+
+
   get '/' do
     puts flash.inspect
-    @week = params[:week] || current_week
-    @tips = Tip.where(tippingweek: @week).order("matchtime ASC").reject{|x| x.deleted}
+    @week = get_week_by_number(params[:week]) || current_week
+    @tips = @week.tips.order("matchtime ASC").reject{|x| x.deleted}
     @results = get_results(@tips)
     haml :index
   end
@@ -25,15 +44,28 @@ class App < Sinatra::Base
 
   post '/tip/add' do
     nice_params = escape_html_for_set(params)
+    # are we starting a new week?
+    unless my_week = get_week_by_number(params[:tippingweek])
+      my_week = Week.create(
+        tippingweek: params[:tippingweek]
+      )
+    end
+    nice_params[:week_id] = my_week.id
+
     puts nice_params.inspect
-    this_user = User.where(user_id: nice_params[:user_id]).first rescue @user
+    # Which user to select?
+    this_user = (User.find_by user_id: nice_params[:user_id]) rescue @user
+    # Create the tip!
     result = this_user.tips.create(nice_params)
+    # Email everyone
     if (/manly/i =~ params['description']).nil?
       pre = 'Don\'t forget to get your tips in'
     else
       pre = 'GO MANLY'
     end
     email_the_bastards("Week #{current_week}: #{this_user.first_name} has tipped #{nice_params['description']}",pre)
+
+    # Redirect
     redirect '/', notice: "Tip added successfully!"
   end
 
@@ -80,6 +112,11 @@ class App < Sinatra::Base
   post '/tip/:id/edit' do
     nice_params = escape_html_for_set(params)
     tip = get_tip(params[:id])
+    begin
+      nice_params[:week_id] = get_week_by_number(nice_params["tippingweek"]).id
+    rescue
+      redirect "/tip/#{params[:id]}", error: "Unable to edit tip - week #{nice_params["tippingweek"]} does not exist"
+    end
     if tip.locked
       redirect "/tip/#{params[:id]}", error: 'Unable to edit tip - it is locked'
     else
