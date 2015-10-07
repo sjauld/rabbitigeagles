@@ -12,7 +12,7 @@ require 'sinatra/activerecord/rake'
 # Send a mail
 task 'thursday-update' do
   if Time.now.thursday?
-    email_the_bastards("Week #{current_week} tipping reminder!","Please ensure your tips are in by 5pm today!")
+    email_the_bastards("Week #{current_week.tippingweek} tipping reminder!","Please ensure your tips are in by 5pm today!")
   else
     puts "It's not Thursday, sunshine"
   end
