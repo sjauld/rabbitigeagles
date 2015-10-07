@@ -11,25 +11,6 @@ class App < Sinatra::Base
     redirect to("/tip/#{params[:tip]}")
   end
 
-  # temporary route to upgrade the database to assign correct week IDs
-  # TODO: remove after application
-  get '/tip/database-migrate-v1' do
-    updates = []
-    tips = Tip.all.order(tippingweek: :asc)
-    tips.each do |t|
-      unless w = get_week_by_number(t.tippingweek)
-        w = Week.create(
-          tippingweek: t.tippingweek
-        )
-      end
-      t.week_id = w.id
-      t.save
-      updates << "#{t.description} - week #{w.id}"
-    end
-    updates
-  end
-
-
   get '/' do
     puts flash.inspect
     @week = get_week_by_number(params[:week]) || current_week
