@@ -1,7 +1,7 @@
 %h1 Please edit your tip!
 %form.form-horizontal{action: '#', method: 'post'}
   .panel.panel-default
-    .panel-heading="Week #{@tip.tippingweek}"
+    .panel-heading="Week #{@tip.week.tippingweek}"
     .panel-body
       .form-group
         %label.col-md-2.control-label{for: 'user_id'} User
@@ -34,7 +34,7 @@
       .form-group
         %label.col-md-2.control-label{for: 'tippingweek'} Tipping Week
         .col.col-md-10
-          %input.form-control.input-md{type: 'number', name: 'tippingweek', min: '1', value: @tip.tippingweek}
+          %input.form-control.input-md{type: 'number', name: 'tippingweek', min: '1', value: @tip.week.tippingweek}
       .form-group
         .col-md-2
         .col-md-10

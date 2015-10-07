@@ -1,18 +1,22 @@
 module Gambling
   def current_week
-    Tip.maximum(:tippingweek)
+    Week.where(deleted: [false,nil]).order(tippingweek: :desc).first
   end
 
-  def current_tipping_week
-    if Tip.where(tippingweek: current_week).reject{|x| x.locked || x.deleted}.count > 0
-      current_week
+  def get_week_by_number(number)
+    Week.where(tippingweek: number).where(deleted: [false,nil]).first
+  end
+
+  def current_tipping_week_number
+    if current_week.locked
+      current_week.tippingweek + 1
     else
-      current_week + 1
+      current_week.tippingweek
     end
   end
 
   def current_tipping_status
-    tips = Tip.where(tippingweek: current_week).reject{|x| x.deleted}
+    tips = current_week.tips.reject{|x| x.deleted}
     if tips.count == 0
       return 'Noone has entered their tips yet. This makes Steve Menzies sad.'
     else
@@ -38,6 +42,7 @@ module Gambling
 
   def streak(user)
     streak = {count: 0, successful: 'unknown'}
+    # TODO: remove the tippingweek reference
     user.tips.where(deleted: false || nil, locked: true).order(tippingweek: :desc).each do |tip|
       streak[:successful] = tip.successful if streak[:successful] == 'unknown'
       break unless streak[:successful] == tip.successful

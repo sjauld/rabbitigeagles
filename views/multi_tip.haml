@@ -29,12 +29,14 @@
                     %th.centered{scope: :row}
                       %a{href: "/tip/#{tip.id}"}
                         %i.fa.fa-money
-                    %td.centered=tip.tippingweek
                     %td.centered
-                      -if tip.user_id.nil? #TODO: remove this when ready
-                        =tip.old_username
-                      -else
-                        %a{href:"/user/#{tip.user_id}"}=tip.user.first_name
+                      %a{href: "/?week=#{tip.week.tippingweek}"}
+                        =tip.week.tippingweek
+                    %td.centered
+                      -# -if tip.user_id.nil? #TODO: remove this when ready
+                      -#   =tip.old_username
+                      -# -else
+                      %a{href:"/user/#{tip.user_id}"}=tip.user.first_name
                     %td
                       %a{href:"/sports/#{tip.sport}"}=tip.sport
                     %td=tip.description

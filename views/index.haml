@@ -58,7 +58,9 @@
                     %th.centered{scope: :row}
                       %a{href: "/tip/#{tip.id}"}
                         %i.fa.fa-money
-                    %td.centered=tip.tippingweek
+                    %td.centered
+                      %a{href: "/?week=#{tip.week.tippingweek}"}
+                        =tip.week.tippingweek
                     %td.centered
                       -if tip.user_id.nil? # TODO: remove this when ready
                         =tip.old_username
@@ -97,12 +99,12 @@
 
 %nav.navbar.navbar-default{role: 'pagination'}
   %ul.breadcrumb
-    -unless @week.to_i < 2
+    -unless @week.tippingweek < 2
       %li
-        %a{href: "/?week=#{@week.to_i - 1}"}
+        %a{href: "/?week=#{@week.tippingweek - 1}"}
           %i.fa.fa-long-arrow-left
     %li
-      %span="Week #{RomanNumerals.to_roman(@week.to_i)}"
+      %span="Week #{RomanNumerals.to_roman(@week.tippingweek)}"
     %li
-      %a{href: "/?week=#{@week.to_i + 1}"}
+      %a{href: "/?week=#{@week.tippingweek + 1}"}
         %i.fa.fa-long-arrow-right
