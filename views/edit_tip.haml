@@ -7,8 +7,8 @@
         %label.col-md-2.control-label{for: 'user_id'} User
         .col.col-md-10
           %select.form-control{ name: 'user_id'}
-            %optgroup{label: 'You'}
-              %option{value: @user.id}=@user.name
+            %optgroup{label: 'Current User'}
+              %option{value: @tip_user.id}=@tip_user.name
             %optgroup{label: 'Other Registered Users'}
               -all_users.each do |user|
                 %option{value: user.id}=user.name
