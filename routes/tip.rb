@@ -58,7 +58,7 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id/lock' do
-    @tip = get_tip(params[:id])
+    @tip = Tip.find(params[:id])
     if @tip.successful.nil?
       redirect back, notice: "No result yet!"
     else
@@ -73,7 +73,8 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id/edit' do
-    @tip = get_tip(params[:id])
+    @tip = Tip.find(params[:id])
+    @tip_user = @tip.user
     if @tip.locked
       redirect "/tip/#{params[:id]}", error: 'Unable to edit tip - it is locked'
     else
@@ -83,7 +84,7 @@ class App < Sinatra::Base
 
   post '/tip/:id/edit' do
     nice_params = escape_html_for_set(params)
-    tip = get_tip(params[:id])
+    tip = Tip.find(params[:id])
     begin
       nice_params[:week_id] = get_week_by_number(nice_params["tippingweek"]).id
     rescue
@@ -98,7 +99,7 @@ class App < Sinatra::Base
   end
 
   get '/tip/:id' do
-    @tip = get_tip(params[:id])
+    @tip = Tip.find(params[:id])
     haml :single_tip
   end
 
@@ -116,12 +117,8 @@ class App < Sinatra::Base
   private
   #######
 
-  def get_tip(id)
-    Tip.find_by(id: id)
-  end
-
   def update_result(id,result)
-    tip = get_tip(params[:id])
+    tip = Tip.find(id)
     unless tip.locked
       tip.successful = result
       tip.save
@@ -129,19 +126,19 @@ class App < Sinatra::Base
   end
 
   def lock_tip(id)
-    tip = get_tip(id)
+    tip = Tip.find(id)
     tip.locked = true
     tip.save
   end
 
   def unlock_tip(id)
-    tip = get_tip(id)
+    tip = Tip.find(id)
     tip.locked = nil
     tip.save
   end
 
   def delete_tip(id)
-    tip = get_tip(id)
+    tip = Tip.find(id)
     unless tip.locked
       tip.deleted = true
       tip.save
@@ -149,7 +146,7 @@ class App < Sinatra::Base
   end
 
   def undelete_tip(id)
-    tip = get_tip(id)
+    tip = Tip.find(id)
     tip.deleted = nil
     tip.save
   end
