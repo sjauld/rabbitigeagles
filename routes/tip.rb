@@ -26,7 +26,7 @@ class App < Sinatra::Base
 
     puts nice_params.inspect
     # Which user to select?
-    this_user = (User.find_by user_id: nice_params[:user_id]) rescue @user
+    this_user = User.find(nice_params[:user_id]) rescue @user
     # Create the tip!
     result = this_user.tips.create(nice_params)
     # Email everyone
