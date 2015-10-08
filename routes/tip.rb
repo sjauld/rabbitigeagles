@@ -2,6 +2,7 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
+  # Index page - show the current week's tips by default
   get '/' do
     puts flash.inspect
     @week = get_week_by_number(params[:week]) || current_week
@@ -10,6 +11,9 @@ class App < Sinatra::Base
     haml :index
   end
 
+  ###########################
+  # Functionality to add tips
+  ###########################
   get '/tip/add' do
     haml :add_tip
   end
@@ -41,37 +45,9 @@ class App < Sinatra::Base
     redirect '/', notice: "Tip added successfully!"
   end
 
-  # Tipping information
-  get '/tip/:id/success' do
-    update_result(params[:id],true)
-    redirect back, notice: "Another win! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
-  end
-
-  get '/tip/:id/smashed' do
-    update_result(params[:id],false)
-    redirect back, notice: "Bugger! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
-  end
-
-  get '/tip/:id/void' do
-    update_result(params[:id],nil)
-    redirect back, notice: "Result cleared."
-  end
-
-  get '/tip/:id/lock' do
-    @tip = Tip.find(params[:id])
-    if @tip.successful.nil?
-      redirect back, notice: "No result yet!"
-    else
-      lock_tip(params[:id])
-      redirect back, notice: "Tip locked! <a href='/tip/#{params[:id]}/unlock'>(undo)</a>"
-    end
-  end
-
-  get '/tip/:id/unlock' do
-    unlock_tip(params[:id])
-    redirect back, notice: "Tip unlocked! <a href='/tip/#{params[:id]}/lock'>(undo)</a>"
-  end
-
+  ############################
+  # Functionality to edit tips
+  ############################
   get '/tip/:id/edit' do
     @tip = Tip.find(params[:id])
     @tip_user = @tip.user
@@ -98,19 +74,75 @@ class App < Sinatra::Base
     end
   end
 
-  get '/tip/:id' do
-    @tip = Tip.find(params[:id])
-    haml :single_tip
+  ###################
+  # Update tip status
+  ###################
+  # Win
+  get '/tip/:id/success' do
+    update_result(params[:id],true)
+    redirect back, notice: "Another win! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
   end
 
+  # Lose
+  get '/tip/:id/smashed' do
+    update_result(params[:id],false)
+    redirect back, notice: "Bugger! <a href='/tip/#{params[:id]}/void'>(undo)</a>"
+  end
+
+  # Clear result
+  get '/tip/:id/void' do
+    update_result(params[:id],nil)
+    redirect back, notice: "Result cleared."
+  end
+
+  # Lock tip
+  get '/tip/:id/lock' do
+    @tip = Tip.find(params[:id])
+    if @tip.successful.nil?
+      redirect back, notice: "No result yet!"
+    else
+      @tip.locked = true
+      @tip.save
+      # Check to see if we should perform some weekly calculations
+      week=@tip.week
+      if week.tips.reject{|t| t.locked}.count > 1
+        #TODO: Do some weekly calculations in here
+      end
+      redirect back, notice: "Tip locked! <a href='/tip/#{params[:id]}/unlock'>(undo)</a>"
+    end
+  end
+
+  # Unlock tip
+  get '/tip/:id/unlock' do
+    @tip = Tip.find(params[:id])
+    @tip.locked = false
+    @tip.save
+    redirect back, notice: "Tip unlocked! <a href='/tip/#{params[:id]}/lock'>(undo)</a>"
+  end
+
+  # Delete tip
   get '/tip/:id/delete' do
-    delete_tip(params[:id])
+    @tip = Tip.find(params[:id])
+    unless @tip.locked
+      @tip.deleted = true
+      @tip.save
+    end
     redirect '/', notice: "Tip deleted! <a href='/tip/#{params[:id]}/undelete'>(undo)</a>"
   end
 
+  # Undelete tip
   get '/tip/:id/undelete' do
-    undelete_tip(params[:id])
+    @tip = Tip.find(params[:id])
+    @tip.deleted = false
+    @tip.save
     redirect '/', notice: "Tip undeleted! <a href='/tip/#{params[:id]}/delete'>(undo)</a>"
+  end
+
+  ##########
+  # View tip
+  get '/tip/:id' do
+    @tip = Tip.find(params[:id])
+    haml :single_tip
   end
 
   #######
@@ -123,32 +155,6 @@ class App < Sinatra::Base
       tip.successful = result
       tip.save
     end
-  end
-
-  def lock_tip(id)
-    tip = Tip.find(id)
-    tip.locked = true
-    tip.save
-  end
-
-  def unlock_tip(id)
-    tip = Tip.find(id)
-    tip.locked = nil
-    tip.save
-  end
-
-  def delete_tip(id)
-    tip = Tip.find(id)
-    unless tip.locked
-      tip.deleted = true
-      tip.save
-    end
-  end
-
-  def undelete_tip(id)
-    tip = Tip.find(id)
-    tip.deleted = nil
-    tip.save
   end
 
   def get_results(tips)
