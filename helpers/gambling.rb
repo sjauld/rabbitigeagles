@@ -8,7 +8,8 @@ module Gambling
   end
 
   def current_tipping_week_number
-    if current_week.locked
+    # TODO: change this logic to current_week.locked
+    if current_week.tips.select{|t| !t.locked && !t.deleted}.empty?
       current_week.tippingweek + 1
     else
       current_week.tippingweek
