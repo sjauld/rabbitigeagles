@@ -26,3 +26,15 @@ task :console do
   ARGV.clear
   IRB.start
 end
+
+# Hard delete old deleted tips
+task :clean_tips do
+  Tip.where(
+    "deleted = ? AND updated_at < ?",
+    true,
+    Time.now - 86400
+  ).each do |t|
+    puts "Deleting #{t.id}"
+    t.delete
+  end
+end
