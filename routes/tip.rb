@@ -11,6 +11,14 @@ class App < Sinatra::Base
     haml :index
   end
 
+  # bad hack
+  get '/qwerty/:id' do
+    Week.create(
+      tippingweek: params[:id]
+    )
+    "Please fix this soon"
+  end
+
   ###########################
   # Functionality to add tips
   ###########################
