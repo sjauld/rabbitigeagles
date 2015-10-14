@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922211554) do
+ActiveRecord::Schema.define(version: 20151014202811) do
 
   create_table "tips", force: :cascade do |t|
     t.string   "old_username"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20150922211554) do
     t.datetime "updated_at",   null: false
     t.integer  "week_id"
     t.integer  "user_id"
+    t.float    "contribution"
   end
 
   add_index "tips", ["user_id"], name: "index_tips_on_user_id"
@@ -40,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150922211554) do
     t.string   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "is_admin"
   end
 
   create_table "weeks", force: :cascade do |t|
@@ -50,6 +52,8 @@ ActiveRecord::Schema.define(version: 20150922211554) do
     t.boolean  "deleted",       default: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.float    "return"
+    t.integer  "correct_tips"
   end
 
 end

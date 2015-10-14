@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   # @return [Hash] a hash containing a count (:count) and a streak status (:successful)
   def streak
     streak = {count: 0, successful: 'unknown'}
-    # TODO: remove the tippingweek reference, need to do something when number of tips per user gets large
     self.tips.where(deleted: false || nil, locked: true).order(tippingweek: :desc).each do |tip|
       streak[:successful] = tip.successful if streak[:successful] == 'unknown'
       break unless streak[:successful] == tip.successful
