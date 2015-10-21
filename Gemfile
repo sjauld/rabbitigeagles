@@ -10,7 +10,7 @@ source 'https://rubygems.org' do
     gem 'sinatra-flash'
     gem 'sinatra-redirect-with-flash'
     gem 'sinatra-asset-pipeline'
-    gem 'sinatra-contrib'
+    gem 'sinatra-contrib', require: false
     gem 'uglifier'
     gem 'dotenv'
     gem 'postmark'
