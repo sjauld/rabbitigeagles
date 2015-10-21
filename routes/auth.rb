@@ -10,6 +10,10 @@ class App < Sinatra::Base
     authorize
   end
 
+  before '/payment/*' do
+    authorize
+  end
+
   # Unauthorized
   get '/401' do
     status 401
