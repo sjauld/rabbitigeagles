@@ -20,7 +20,7 @@
                 -@payment_data.each do |r|
                   %tr
                     %td=r[:name]
-                    %td.numeric=r[:payments]
+                    %td.numeric="$%2.2f" % r[:payments]
   .col-md-9
     .panel.panel-default
       .panel-heading
@@ -44,4 +44,4 @@
                   %tr
                     %td=r.user.name
                     %td=r.created_at.strftime("%d-%m-%Y")
-                    %td.numeric=r.amount
+                    %td.numeric="$%2.2f" % r.amount
