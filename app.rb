@@ -13,6 +13,7 @@ require './extensions/postmark'
 require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
+require 'sinatra/multi_route'
 
 class App < Sinatra::Base
 
@@ -22,6 +23,7 @@ class App < Sinatra::Base
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
     register Sinatra::AssetPipeline
+    register Sinatra::MultiRoute
 
     # sinatra-flash
     register Sinatra::Flash

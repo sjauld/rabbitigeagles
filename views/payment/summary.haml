@@ -1,0 +1,47 @@
+.row
+  .col-md-3
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-balance-scale
+          %span.text Current Payments
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %thead
+              %tr
+                %th{scope: :col} Name
+                %th.numeric{scope: :col} Payments
+            %tbody
+              -if @payment_data.empty?
+                %tr
+                  %td{colspan: 2} There is no data!
+              -else
+                -@payment_data.each do |r|
+                  %tr
+                    %td=r[:name]
+                    %td.numeric=r[:payments]
+  .col-md-9
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-dollar
+          %span.text Recent Payments
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %thead
+              %tr
+                %th{scope: :col} Name
+                %th{scope: :col} Date
+                %th.numeric{scope: :col} Payment
+            %tbody
+              -if @recent_payments.empty?
+                %tr
+                  %td{colspan: 3} There is no data!
+              -else
+                -@recent_payments.each do |r|
+                  %tr
+                    %td=r.user.name
+                    %td=r.created_at.strftime("%d-%m-%Y")
+                    %td.numeric=r.amount

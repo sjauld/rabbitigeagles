@@ -1,0 +1,22 @@
+%h1 Please add a payment!
+%form.form-horizontal{action: '#', method: 'post'}
+  .panel.panel-default
+    .panel-heading Add a payment
+    .panel-body
+      .form-group
+        %label.col-md-2.control-label{for: 'user_id'} User
+        .col.col-md-10
+          %select.form-control{ name: 'user_id'}
+            %optgroup{label: 'You'}
+              %option{value: @user.id}=@user.name
+            %optgroup{label: 'Other Registered Users'}
+              -all_users.each do |user|
+                %option{value: user.id}=user.name
+      .form-group
+        %label.col-md-2.control-label{for: 'amount'} Amount
+        .col.col-md-10
+          %input.form-control.input-md{type: 'text', placeholder: '50', name: 'payment', required: true}
+      .form-group
+        .col-md-2
+        .col-md-10
+          %button.btn.btn-success{type: 'submit'} Register Payment
