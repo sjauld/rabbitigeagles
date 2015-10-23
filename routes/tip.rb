@@ -6,7 +6,7 @@ class App < Sinatra::Base
   get '/' do
     puts flash.inspect
     @week = get_week_by_number(params[:week]) || current_week
-    @tips = @week.tips.order("matchtime ASC").reject{|x| x.deleted}
+    @tips = @week.tips.order("matchtime ASC").select{|x| !x.deleted}
     @results = get_results(@tips)
     haml :index
   end
