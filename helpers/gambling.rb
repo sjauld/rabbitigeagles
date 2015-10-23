@@ -17,7 +17,7 @@ module Gambling
   end
 
   def current_tipping_status
-    tips = current_week.tips.reject{|x| x.deleted}
+    tips = current_week.tips.select{|x| !x.deleted}
     if tips.count == 0
       return 'Noone has entered their tips yet. This makes Steve Menzies sad.'
     else
