@@ -11,14 +11,6 @@ class App < Sinatra::Base
     haml :index
   end
 
-  # bad hack
-  get '/qwerty/:id' do
-    Week.create(
-      tippingweek: params[:id]
-    )
-    "Please fix this soon"
-  end
-
   ###########################
   # Functionality to add tips
   ###########################
@@ -38,7 +30,7 @@ class App < Sinatra::Base
 
     puts nice_params.inspect
     # Which user to select?
-    this_user = User.find(nice_params[:user_id]) rescue @user
+    this_user = User.find(nice_params['user_id']) rescue @user
     # Create the tip!
     result = this_user.tips.create(nice_params)
     # Email everyone
