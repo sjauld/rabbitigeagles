@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   # @return [Hash] a hash containing a count (:count) and a streak status (:successful)
   def streak
     streak = {count: 0, successful: 'unknown'}
-    self.tips.where(deleted: false || nil, locked: true).order(tippingweek: :desc).each do |tip|
+    self.tips.where(deleted: [false,nil], locked: true).order(tippingweek: :desc).each do |tip|
       streak[:successful] = tip.successful if streak[:successful] == 'unknown'
       break unless streak[:successful] == tip.successful
       streak[:count] += 1
