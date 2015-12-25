@@ -47,7 +47,7 @@ class App < Sinatra::Base
       flash[:error] = "User #{params[:user]} does not exist"
       redirect to ('/')
     end
-    @tips = @this_user.tips.where(deleted: false || nil).order(tippingweek: :desc)
+    @tips = @this_user.tips.where(deleted: [false,nil]).order(tippingweek: :desc)
     @stats = get_user_stats([@this_user]).first
     haml :'user/user_profile'
   end
