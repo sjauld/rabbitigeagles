@@ -2,4 +2,4 @@
 //= require moment
 //= require bootstrap
 //= require bootstrap3-datetimepicker
-//= require jqueryui/ui/autocomplete
+//= require jqueryui

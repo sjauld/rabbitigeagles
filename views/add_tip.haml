@@ -38,7 +38,8 @@
           %button.btn.btn-success{type: 'submit'} Submit Tip
 
 :javascript
-  var sportTags = @sports
+  var sportTags = #{@sports.to_json};
+  console.log(sportTags);
   $(document).ready( function() {
     $('#eventTime').datetimepicker({locale: 'en-au', format: 'YYYY-MM-DD HH:mm:ss'});
     $("#sport").autocomplete({
