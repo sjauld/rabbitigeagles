@@ -4,7 +4,6 @@ class App < Sinatra::Base
 
   # Index page - show the current week's tips by default
   get '/' do
-    puts flash.inspect
     @week = get_week_by_number(params[:week]) || current_week
     @tips = @week.tips.order("matchtime ASC").select{|x| !x.deleted}
     @results = get_results(@tips)
@@ -15,6 +14,7 @@ class App < Sinatra::Base
   # Functionality to add tips
   ###########################
   get '/tip/add' do
+    @sports = select_all_sports
     haml :add_tip
   end
 
@@ -27,8 +27,6 @@ class App < Sinatra::Base
       )
     end
     nice_params[:week_id] = my_week.id
-
-    puts nice_params.inspect
     # Which user to select?
     this_user = User.find(nice_params['user_id']) rescue @user
     # Create the tip!

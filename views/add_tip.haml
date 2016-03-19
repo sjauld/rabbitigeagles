@@ -15,7 +15,7 @@
       .form-group
         %label.col-md-2.control-label{for: 'sport'} Sport
         .col.col-md-10
-          %input.form-control.input-md{type: 'text', placeholder: 'Ulimate Frisbee', name: 'sport', required: true}
+          %input.form-control.input-md#sport{type: 'text', placeholder: 'Ulimate Frisbee', name: 'sport', required: true}
       .form-group
         %label.col-md-2.control-label{for: 'description'} Match
         .col.col-md-10
@@ -38,6 +38,10 @@
           %button.btn.btn-success{type: 'submit'} Submit Tip
 
 :javascript
+  var sportTags = @sports
   $(document).ready( function() {
     $('#eventTime').datetimepicker({locale: 'en-au', format: 'YYYY-MM-DD HH:mm:ss'});
+    $("#sport").autocomplete({
+      source: sportTags
+    });
   });
