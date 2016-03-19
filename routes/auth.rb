@@ -38,18 +38,15 @@ class App < Sinatra::Base
   get '/auth/google_oauth2/callback' do
     @title = "logged in"
     session.clear
-    puts auth_hash.inspect
     auth_hash.info.each_pair do |k,v|
       session[k] = v
     end
     session['id'] = auth_hash['uid']
-    puts session.inspect
     flash[:notice] = "Login successful"
     redirect to('/')
   end
 
   get '/session-inspector' do
-    puts session.inspect
     haml :'dev/session'
   end
 

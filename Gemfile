@@ -35,5 +35,6 @@ source 'https://rails-assets.org' do
     gem 'rails-assets-bootstrap3-datetimepicker'
     gem 'rails-assets-jquery'
     gem 'rails-assets-moment'
+    gem 'rails-assets-jqueryui'
   end
 end

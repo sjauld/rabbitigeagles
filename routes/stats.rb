@@ -49,7 +49,6 @@ class App < Sinatra::Base
     sports.each do |sport|
       sport_tips = get_tips_by_sport(sport)
       unless sport_tips.count == 0
-        puts "sport: #{sport} / #{sport_tips.inspect}"
         percent = sport_tips.select{|x| x.successful}.count * 100 / sport_tips.reject{|x| x.successful == nil}.count rescue -1
         results << {
           sport: sport,

@@ -13,8 +13,6 @@ require 'sinatra/activerecord/rake'
 task 'thursday-update' do
   if Time.now.thursday?
     email_the_bastards("Week #{current_week.tippingweek} tipping reminder!","Please ensure your tips are in by 5pm today!")
-  else
-    puts "It's not Thursday, sunshine"
   end
 end
 
@@ -34,7 +32,6 @@ task :clean_tips do
     true,
     Time.now - 86400
   ).each do |t|
-    puts "Deleting #{t.id}"
     t.delete
   end
 end
