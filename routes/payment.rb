@@ -6,7 +6,7 @@ class App < Sinatra::Base
 
   post '/payment/add' do
     if (amount = params[:payment].to_f) == 0
-      flash[:warning] = "Error: you have added a zero payment."
+      flash[:error] = "Error: you have added a zero payment."
     else
       the_user = User.find(params['user_id'])
       the_user.payments.create(amount: amount)
