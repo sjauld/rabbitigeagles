@@ -17,6 +17,6 @@ class User < ActiveRecord::Base
   # Calculate the total payments made by a user
   # @return [Float] the dollar value made
   def total_payments
-    self.payments.map{|x| x.amount}.reduce(:+)
+    self.payments.map{|x| x.amount.to_f}.reduce(:+)
   end
 end

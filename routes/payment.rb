@@ -5,9 +5,13 @@ class App < Sinatra::Base
   end
 
   post '/payment/add' do
-    the_user = User.find(params['user_id'])
-    the_user.payments.create(amount: params[:payment])
-    flash[:notice] = "Payment added!"
+    if (amount = params[:payment].to_f) == 0
+      flash[:warning] = "Error: you have added a zero payment."
+    else
+      the_user = User.find(params['user_id'])
+      the_user.payments.create(amount: amount)
+      flash[:notice] = "Payment added!"
+    end
     redirect '/payment/'
   end
 
