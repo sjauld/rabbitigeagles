@@ -21,4 +21,15 @@ class App < Sinatra::Base
     haml :'/payment/summary'
   end
 
+  get '/payment/:id/delete' do
+    the_payment = Payment.find(params[:id])
+    if ( the_payment.user.id == 1 || the_payment.user.id == @user.id )
+      the_payment.delete
+      flash[:notice] = "Payment deleted!"
+    else
+      flash[:error] = "Error: you are not authorised to delete that payment"
+    end
+    redirect '/payment/'
+  end
+
 end
