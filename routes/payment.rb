@@ -23,7 +23,7 @@ class App < Sinatra::Base
 
   get '/payment/:id/delete' do
     the_payment = Payment.find(params[:id])
-    if ( the_payment.user.id == 1 || the_payment.user.id == @user.id )
+    if ( @user.id == 1 || the_payment.user.id == @user.id )
       the_payment.delete
       flash[:notice] = "Payment deleted!"
     else

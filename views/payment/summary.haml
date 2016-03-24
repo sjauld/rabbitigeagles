@@ -46,6 +46,6 @@
                     %td=r.created_at.strftime("%d-%m-%Y")
                     %td.numeric
                       ="$%2.2f" % r.amount.to_f
-                      -if ( r.user.id == 1 || r.user.id == @user.id )
+                      -if ( @user.id == 1 || r.user.id == @user.id )
                         %a{href: "/payment/#{r.id}/delete"}
                           %i.fa.fa-bomb
